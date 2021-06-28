@@ -1,16 +1,13 @@
-# This is a sample Python script.
+from model import Model, get_benchmarks_names, get_migration_methods
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    benchmarks_names = get_benchmarks_names()
+    migration_methods = get_migration_methods()
+
+    model = Model(benchmarks_names[0], 10, 0.1, migration_methods[0], 2, 100, 20, True)
+
+    model.run()
+
+
+
