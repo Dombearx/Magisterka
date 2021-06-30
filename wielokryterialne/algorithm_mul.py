@@ -52,7 +52,7 @@ CXPB, MUTPB = 0.1, 1.0
 
 
 if(BENCHMARK_NAME == "dtlz1"):
-    toolbox = bc.getDTLZ1ToolBox(NUM_OF_OBJECTIVES)
+    toolbox = bc.get_dtlz1_toolbox(NUM_OF_OBJECTIVES)
 
 if(BENCHMARK_NAME == "dtlz2"):
     toolbox = bc.getDTLZ2ToolBox(NUM_OF_OBJECTIVES)

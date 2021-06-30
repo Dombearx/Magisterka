@@ -23,7 +23,7 @@ def randomMutGaussian(ind, mu, sigma, upper_bound, lower_bound):
 # Wielokryterialne do NSGA2
 
 
-def registerNSGA2(lower_bound, upper_bound, attributes, creator, evalBenchmark):
+def register_NSGA2(lower_bound, upper_bound, attributes, creator, evalBenchmark):
 
     toolbox = base.Toolbox()
 
@@ -42,7 +42,7 @@ def registerNSGA2(lower_bound, upper_bound, attributes, creator, evalBenchmark):
     return toolbox
 
 
-def getDTLZ1ToolBox(objectives):
+def get_dtlz1_toolbox(objectives):
 
     weights_tuple = (-1,) * objectives
 
@@ -53,11 +53,11 @@ def getDTLZ1ToolBox(objectives):
     lower_bound = 0.0
     upper_bound = 1.0
 
-    def evalBenchmark(individual):
+    def eval_benchmark(individual):
         return benchmarks.dtlz1(individual, objectives)
 
-    toolbox = registerNSGA2(
-        lower_bound, upper_bound, attributes, creator, evalBenchmark)
+    toolbox = register_NSGA2(
+        lower_bound, upper_bound, attributes, creator, eval_benchmark)
 
     return toolbox
 
@@ -76,7 +76,7 @@ def getDTLZ2ToolBox(objectives):
     def evalBenchmark(individual):
         return benchmarks.dtlz2(individual, objectives)
 
-    toolbox = registerNSGA2(
+    toolbox = register_NSGA2(
         lower_bound, upper_bound, attributes, creator, evalBenchmark)
 
     return toolbox
@@ -96,7 +96,7 @@ def getDTLZ3ToolBox(objectives):
     def evalBenchmark(individual):
         return benchmarks.dtlz3(individual, objectives)
 
-    toolbox = registerNSGA2(
+    toolbox = register_NSGA2(
         lower_bound, upper_bound, attributes, creator, evalBenchmark)
 
     return toolbox
@@ -116,7 +116,7 @@ def getDTLZ4ToolBox(objectives):
     def evalBenchmark(individual):
         return benchmarks.dtlz4(individual, objectives, 100)
 
-    toolbox = registerNSGA2(
+    toolbox = register_NSGA2(
         lower_bound, upper_bound, attributes, creator, evalBenchmark)
 
     return toolbox

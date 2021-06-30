@@ -5,13 +5,13 @@ from deap import tools
 import numpy as np
 
 from wielokryterialne.nsga2_alg import nsga2Algorithm, myParetoFront
-from wielokryterialne.benchmarks_conf import getDTLZ1ToolBox, getDTLZ2ToolBox, getDTLZ3ToolBox, getDTLZ4ToolBox
+from wielokryterialne.benchmarks_conf import get_dtlz1_toolbox, getDTLZ2ToolBox, getDTLZ3ToolBox, getDTLZ4ToolBox
 from wielokryterialne.migration import migSelFrontsContsInslands, migSelOneFrontOneIsland, migIslandsRandom
 from wielokryterialne.utils import Result
 from wielokryterialne.frams_toolbox_lib import get_toolbox
 
 BENCHMARKS = {
-    "dtlz1": getDTLZ1ToolBox,
+    "dtlz1": get_dtlz1_toolbox,
     "dtlz2": getDTLZ2ToolBox,
     "dtlz3": getDTLZ3ToolBox,
     "dtlz4": getDTLZ4ToolBox,
