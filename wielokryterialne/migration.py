@@ -37,12 +37,12 @@ def migSelFrontsContsInslands(populations, numOfIslands):
     newIslands[-1] += wholePopulation[lastIndex:]
 
     for i, newIs in enumerate(newIslands):
-        if(i >= len(populations)):
+        if i >= len(populations):
             populations.append(newIs)
         else:
             populations[i] = newIs
 
-    if(len(populations) > len(newIslands)):
+    if len(populations) > len(newIslands):
         del populations[len(newIslands):]
 
 # Migracja między wyspami w selekcji konwekcyjnej dla problemów WIELOKRYTERIALNYCH

@@ -1,15 +1,21 @@
-import numpy as np
+import pickle
+import time
 
 from deap import tools
+import numpy as np
+
 from wielokryterialne.nsga2_alg import nsga2Algorithm, myParetoFront
 from wielokryterialne.benchmarks_conf import getDTLZ1ToolBox, getDTLZ2ToolBox, getDTLZ3ToolBox, getDTLZ4ToolBox
 from wielokryterialne.migration import migSelFrontsContsInslands, migSelOneFrontOneIsland, migIslandsRandom
+from wielokryterialne.utils import Result
+from wielokryterialne.frams_toolbox_lib import get_toolbox
 
 BENCHMARKS = {
     "dtlz1": getDTLZ1ToolBox,
     "dtlz2": getDTLZ2ToolBox,
     "dtlz3": getDTLZ3ToolBox,
-    "dtlz4": getDTLZ4ToolBox
+    "dtlz4": getDTLZ4ToolBox,
+    "frams": get_toolbox
 }
 
 MIGRATION_METHODS = {
@@ -33,10 +39,13 @@ class Model:
                  num_of_benchmark_objectives: int, population_size: int, max_iterations_wo_improvement: int,
                  register_statistics: bool):
 
+        self.benchmark_name = benchmark_name
+        self.num_of_islands = num_of_islands
         self.FREQ = int(migration_ratio * population_size)
         self.CXPB, self.MUTPB = 0.1, 1.0
         self.max_iterations_wo_improvement = max_iterations_wo_improvement
 
+        print(f"{benchmark_name=}")
         self.toolbox = BENCHMARKS[benchmark_name](num_of_benchmark_objectives)
 
         self.toolbox.register("map", map)
@@ -87,7 +96,7 @@ class Model:
         self.toolbox.migrate(self.islands)
         first = True
 
-        while (iterations_wo_improvement <= self.max_iterations_wo_improvement / self.FREQ):
+        while iterations_wo_improvement <= self.max_iterations_wo_improvement / self.FREQ:
 
             results = self.toolbox.map(self.toolbox.algorithm, self.islands)
 
@@ -127,26 +136,13 @@ class Model:
 
             self.toolbox.migrate(self.islands)
 
-# first = True
-# previous_pareto_front = None
-#
-# print("Running:", BENCHMARK_NAME)
-# print("Islands number:", NUM_OF_ISLANDS)
-# print("Migration every", FREQ, "steps")
-# print("Max iterations without improvement:", max_iterations_wo_improvement)
-# print("Model:", MODEL)
-# print("----------START---------")
-# mig_start_time = time.time()
-#
-#
-# print("----------END---------")
-# print("Hall of fame[0]:", hallOfFame[0], hallOfFame[0].fitness)
-#
-# # Save results
-# pickleOut = open("./out/" + BENCHMARK_NAME + "_" + str(NUM_OF_ISLANDS) +
-#                  "_" + str(MIGRATION_RATIO) + "_" + MODEL + "_" + str(NUM_OF_OBJECTIVES) + ".pickle", "wb")
-# pickle.dump(utils.result(
-#     logbooks, bestIndividuals, time.time() - start_time), pickleOut)
-# pickleOut.close()
-#
-# print("\n")
+
+    def save_results(self):
+        # Save results
+        pickleOut = open("./out/" + self.benchmark_name + "_" + str(self.num_of_islands) +
+                         "_" + str(MIGRATION_RATIO) + "_" + MODEL + "_" + str(NUM_OF_OBJECTIVES) + ".pickle", "wb")
+        pickle.dump(Result(
+            self.logbooks, self.best_individuals, time.time() - self.start_time), pickleOut)
+        pickleOut.close()
+
+        print("\n")

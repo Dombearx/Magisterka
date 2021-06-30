@@ -1,13 +1,20 @@
 from model import Model, get_benchmarks_names, get_migration_methods
+from utils import load_config, get_model_from_config
+
 
 if __name__ == '__main__':
 
-    benchmarks_names = get_benchmarks_names()
-    migration_methods = get_migration_methods()
+    config = load_config("experiment_conf.json")
 
-    model = Model(benchmarks_names[0], 10, 0.1, migration_methods[0], 2, 100, 20, True)
+    experiments = config["experiments"]
+    print(experiments)
 
-    model.run()
+    for key in experiments.keys():
+
+        model = get_model_from_config(experiments[key])
+
+        model.run()
+
 
 
 

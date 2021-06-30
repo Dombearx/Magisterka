@@ -17,18 +17,18 @@ def saveParetoFront(front):
     file.close()
 
 
-class result:
+class Result:
 
-    def __init__(self, logbooks, hallOfFamers, time):
+    def __init__(self, logbooks, hall_of_fame, time):
         self.logbooks = logbooks
-        self.hallOfFamers = hallOfFamers
+        self.hall_of_fame = hall_of_fame
         self.time = time
 
-    def getLogbooks(self):
+    def get_logbooks(self):
         return self.logbooks
 
-    def getHallOfFamers(self):
-        return self.hallOfFamers
+    def get_hall_of_fame(self):
+        return self.hall_of_fame
 
-    def getTime(self):
+    def get_time(self):
         return self.time

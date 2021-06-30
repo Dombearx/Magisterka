@@ -7,10 +7,10 @@ from copy import deepcopy
 
 class myParetoFront():
 
-    def __init__(self, maxLen, similar=eq):
+    def __init__(self, max_len, similar=eq):
         self.keys = list()
         self.items = list()
-        self.maxLen = maxLen
+        self.max_len = max_len
         self.similar = similar
 
     def insert(self, item):
@@ -54,7 +54,7 @@ class myParetoFront():
                 self.remove(i)
                 removed += 1
             if not is_dominated and not has_twin:
-                if(len(self) < self.maxLen):
+                if(len(self) < self.max_len):
                     self.insert(ind)
 
         return removed
