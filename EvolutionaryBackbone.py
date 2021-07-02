@@ -33,8 +33,8 @@ class EvolutionaryBackbone:
         self.prepare_logs = prepare_logs
         self.update_logs = update_logs
 
-        #args
-        self.create_population_args = kwargs['create_population']
+        # args
+        self.create_population_args = kwargs['create_population_args']
 
     def run(self) -> tuple[list, list]:
         should_run = True
