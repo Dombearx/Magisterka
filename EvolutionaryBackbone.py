@@ -6,7 +6,7 @@ from deap import base
 class EvolutionaryBackbone:
 
     def __init__(self,
-                 create_population: Callable[[base.Toolbox], list],
+                 create_population: Callable[[base.Toolbox, ...], list],
                  prepare_population: Callable[[base.Toolbox, list], list],
                  run_algorithm: Callable[[base.Toolbox, list], list],
                  should_still_run: Callable[[list], bool],
@@ -33,10 +33,13 @@ class EvolutionaryBackbone:
         self.prepare_logs = prepare_logs
         self.update_logs = update_logs
 
+        #args
+        self.create_population_args = kwargs['create_population']
+
     def run(self) -> tuple[list, list]:
         should_run = True
 
-        population = self.create_population(self.toolbox)
+        population = self.create_population(self.toolbox, *self.create_population_args)
         population = self.prepare_population(self.toolbox, population)
 
         hall_of_fame = self.prepare_hall_of_fame(self.toolbox)
