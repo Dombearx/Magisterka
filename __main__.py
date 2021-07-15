@@ -5,6 +5,10 @@ import pprint as pp
 
 from experiments import Experiment
 from Populations import create_simple_population, create_islands_population
+from ClearPopulation import do_nothing
+from HallOfFame import prepare_hall_of_fame
+
+from EvolutionaryBackbone import EvolutionaryBackbone
 
 OPTIMIZATION_CRITERIA = ['velocity']
 
@@ -24,7 +28,22 @@ if __name__ == "__main__":
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     pop = create_simple_population(toolbox, 100)
-    pop = create_islands_population(toolbox, 5, 10)
+
+    kwargs = {
+        'create_population_args': None,
+        'prepare_hall_of_fame_args': None,
+        'should_still_run_args': None,
+    }
+
+    evolutionary_backbone = EvolutionaryBackbone(
+        create_simple_population,
+        do_nothing,
+
+        toolbox
+    )
+
+    evolutionary_backbone.run()
+
 
     pp.pprint(pop)
 
