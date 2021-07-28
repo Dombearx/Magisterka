@@ -62,7 +62,7 @@ def get_dtlz1_toolbox(objectives):
     return toolbox
 
 
-def getDTLZ2ToolBox(objectives):
+def get_dtlz2_toolbox(objectives):
 
     weights_tuple = (-1,) * objectives
 
@@ -82,7 +82,7 @@ def getDTLZ2ToolBox(objectives):
     return toolbox
 
 
-def getDTLZ3ToolBox(objectives):
+def get_dtlz3_toolbox(objectives):
 
     weights_tuple = (-1,) * objectives
 
@@ -102,7 +102,7 @@ def getDTLZ3ToolBox(objectives):
     return toolbox
 
 
-def getDTLZ4ToolBox(objectives):
+def get_dtlz4_toolbox(objectives):
 
     weights_tuple = (-1,) * objectives
 

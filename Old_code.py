@@ -10,6 +10,24 @@ from wielokryterialne.migration import migSelFrontsContsInslands, migSelOneFront
 from wielokryterialne.utils import Result
 from wielokryterialne.frams_toolbox_lib import get_toolbox
 
+## LOAD MODL
+def get_model_from_config(experiment_params: dict) -> Model:
+    benchmark_name = experiment_params["benchmark_name"]
+    num_of_islands = experiment_params["num_of_islands"]
+    migration_ratio = experiment_params["migration_ratio"]
+    migration_method = experiment_params["migration_method"]
+    num_of_benchmark_objectives = experiment_params["num_of_benchmark_objectives"]
+    population_size = experiment_params["population_size"]
+    max_iterations_wo_improvement = experiment_params["max_iterations_wo_improvement"]
+    register_statistics = experiment_params["register_statistics"]
+
+    model = Model(benchmark_name, num_of_islands, migration_ratio, migration_method, num_of_benchmark_objectives,
+                  population_size, max_iterations_wo_improvement, register_statistics)
+
+    return model
+
+##
+
 BENCHMARKS = {
     "dtlz1": get_dtlz1_toolbox,
     "dtlz2": getDTLZ2ToolBox,

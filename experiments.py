@@ -1,11 +1,11 @@
-from wielokryterialne.benchmarks_conf import get_dtlz1_toolbox, getDTLZ2ToolBox, getDTLZ3ToolBox, getDTLZ4ToolBox
+from wielokryterialne.benchmarks_conf import get_dtlz1_toolbox, get_dtlz2_toolbox, get_dtlz3_toolbox, get_dtlz4_toolbox
 from wielokryterialne.frams_toolbox_lib import get_toolbox
 
 EXPERIMENTS = {
     "dtlz1": get_dtlz1_toolbox,
-    "dtlz2": getDTLZ2ToolBox,
-    "dtlz3": getDTLZ3ToolBox,
-    "dtlz4": getDTLZ4ToolBox,
+    "dtlz2": get_dtlz2_toolbox,
+    "dtlz3": get_dtlz3_toolbox,
+    "dtlz4": get_dtlz4_toolbox,
     "frams": get_toolbox
 }
 

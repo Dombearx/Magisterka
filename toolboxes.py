@@ -1,6 +1,7 @@
 from deap import creator, base, tools, benchmarks
 import random
 
+
 def changedMutGaussian(individual, mu, sigma, index, upper_bound, lower_bound):
     individual[index] += random.gauss(mu, sigma)
     individual[index] = max(min(individual[index], upper_bound), lower_bound)
@@ -8,12 +9,12 @@ def changedMutGaussian(individual, mu, sigma, index, upper_bound, lower_bound):
 
 
 def random_gaussian_mutation(ind, mu, sigma, upper_bound, lower_bound):
-    index = random.randint(0, len(ind)-1)
+    index = random.randint(0, len(ind) - 1)
 
     return changedMutGaussian(ind, mu=mu, sigma=sigma, index=index, upper_bound=upper_bound, lower_bound=lower_bound)
 
-def register_NSGA2(lower_bound, upper_bound, attributes, creator, evalBenchmark):
 
+def register_NSGA2(lower_bound, upper_bound, attributes, creator, evalBenchmark):
     toolbox = base.Toolbox()
 
     toolbox.register("attr_float", random.uniform, lower_bound, upper_bound)
@@ -24,14 +25,14 @@ def register_NSGA2(lower_bound, upper_bound, attributes, creator, evalBenchmark)
     toolbox.register("evaluate", evalBenchmark)
     toolbox.register("mate", tools.cxUniform, indpb=0.5)
     toolbox.register("mutate", random_gaussian_mutation, mu=0,
-                     sigma=(upper_bound - lower_bound)/10, upper_bound=upper_bound, lower_bound=lower_bound)
+                     sigma=(upper_bound - lower_bound) / 10, upper_bound=upper_bound, lower_bound=lower_bound)
 
     toolbox.register("select", tools.selNSGA2)
 
     return toolbox
 
-def get_toolbox(experiment_name: str, **kwargs):
 
+def get_toolbox(experiment_name: str, **kwargs):
     weights_tuple = (-1,) * objectives
 
     creator.create("FitnessMin", base.Fitness, weights=weights_tuple)
@@ -48,6 +49,7 @@ def get_toolbox(experiment_name: str, **kwargs):
         lower_bound, upper_bound, attributes, creator, eval_benchmark)
 
     return toolbox
+
 
 def register_standard(attributes, creator, cli):
     toolbox = base.Toolbox()

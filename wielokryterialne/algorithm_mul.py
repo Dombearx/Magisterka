@@ -119,7 +119,7 @@ print("Max iterations without improvement:", max_iterations_wo_improvement)
 print("Model:", MODEL)
 print("----------START---------")
 mig_start_time = time.time()
-while(iterations_wo_improvement <= max_iterations_wo_improvement / FREQ):
+while iterations_wo_improvement <= max_iterations_wo_improvement / FREQ:
 
     results = toolbox.map(toolbox.algorithm, islands)
 
@@ -130,14 +130,14 @@ while(iterations_wo_improvement <= max_iterations_wo_improvement / FREQ):
 
     sum_removed = sum(removed)
 
-    if(sum_removed <= 1):
+    if sum_removed <= 1:
         iterations_wo_improvement += 1
     else:
         iterations_wo_improvement = 0
         print("Removed: ", sum_removed,
               "Improvement: ", hallOfFame[0].fitness)
 
-    if(iterations_wo_improvement * FREQ % int(max_iterations_wo_improvement / 10) == 0):
+    if iterations_wo_improvement * FREQ % int(max_iterations_wo_improvement / 10) == 0:
         print("iterations_wo_improvement:", (iterations_wo_improvement *
                                              FREQ / max_iterations_wo_improvement) * 100, "%  time:", round(time.time() - mig_start_time, 2))
         mig_start_time = time.time()

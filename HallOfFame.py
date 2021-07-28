@@ -1,6 +1,4 @@
-import random
-
-from deap import tools, base
+from deap import base
 from operator import eq
 from copy import deepcopy
 
@@ -22,6 +20,9 @@ class BasicParetoFront:
 
         self.keys[index] = item
         self.items[index] = item.fitness
+
+    def update(self, population: list) -> list:
+        return self.items
 
     def __len__(self):
         return len(self.items)
@@ -79,3 +80,10 @@ class SimpleParetoFront(BasicParetoFront):
 
 def prepare_hall_of_fame(toolbox: base.Toolbox, size: int) -> SimpleParetoFront:
     return SimpleParetoFront(size)
+
+
+def update_hall_of_fame(toolbox: base.Toolbox, population: list,
+                        old_hall_of_fame: BasicParetoFront) -> BasicParetoFront:
+    old_hall_of_fame.update(population)
+
+    return old_hall_of_fame

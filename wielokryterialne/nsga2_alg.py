@@ -107,7 +107,7 @@ def nsga2Algorithm(population, toolbox, cxpb, mutpb, ngen, stats=None, halloffam
         # Vary the population
 
         # Dodawanie osobników aż populacja będzie podzielna przez 4
-        while(len(population) % 4 != 0):
+        while len(population) % 4 != 0:
             population.append(
                 population[random.randint(0, len(population) - 1)])
 
