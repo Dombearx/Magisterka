@@ -71,8 +71,8 @@ class FramsticksLib:
 		"""
 		assert isinstance(genotype_list, list)  # because in python str has similar capabilities as list and here it would pretend to work too, so to avoid any ambiguity
 
-		if not self.PRINT_FRAMSTICKS_OUTPUT:
-			ec = frams.MessageCatcher.new()  # mute potential errors, warnings, messages
+		# if not self.PRINT_FRAMSTICKS_OUTPUT:
+		# 	ec = frams.MessageCatcher.new()  # mute potential errors, warnings, messages
 
 		frams.GenePools[0].clear()
 		for g in genotype_list:
