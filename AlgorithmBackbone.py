@@ -1,4 +1,5 @@
 import random
+import pprint as pp
 from typing import Callable
 
 from deap import base
@@ -16,7 +17,7 @@ class BasicAlgorithm:
 class Nsga2Algorithm(BasicAlgorithm):
 
     def __init__(self, toolbox: base.Toolbox, mutation_probability: float, crossover_probability: float,
-                 number_of_generations: int, sort_population: Callable[[list, int], list]):
+                 number_of_generations: int, sort_population: Callable[[list, int], list], *args, **kwargs):
         super().__init__()
         self.toolbox = toolbox
         self.mutation_probability = mutation_probability
@@ -25,38 +26,57 @@ class Nsga2Algorithm(BasicAlgorithm):
 
         self.sort_population = sort_population
 
+        if 'optimization_criteria' in kwargs.keys():
+            self.optimization_criteria = kwargs['optimization_criteria']
+
     def run(self, population: list) -> list:
 
         # Evaluate the individuals with an invalid fitness
         invalid_ind = [ind for ind in population if not ind.fitness.valid]
         fitness_results = self.toolbox.map(self.toolbox.evaluate, invalid_ind)
+        # print(invalid_ind)
+        # print(list(fitness_results))
         for ind, fit in zip(invalid_ind, fitness_results):
+            if hasattr(self, 'optimization_criteria'):
+                fit = [fit[0]['evaluations'][''][crit] for crit in self.optimization_criteria]
             ind.fitness.values = fit
 
         # This is just to assign the crowding distance to the individuals
         # no actual selection is done
         population = self.toolbox.select(population, len(population))
-
         for generation in range(1, self.number_of_generations + 1):
+
+            # For tournamentDCD it's needed that the population is divisible by 4
+            while len(population) % 4 != 0:
+                population.append(population[random.randint(0, len(population) - 1)])
 
             offspring = self.sort_population(population, len(population))
 
             offspring = [self.toolbox.clone(ind) for ind in offspring]
 
+            # TODO for frams it should be ind1[0] = blah_blah
             for ind1, ind2 in zip(offspring[::2], offspring[1::2]):
                 if random.random() <= self.crossover_probability:
-                    ind1, ind2 = self.toolbox.mate(ind1, ind2)
+                    ind1[0], ind2[0] = self.toolbox.mate(ind1, ind2)
 
                 if random.random() <= self.mutation_probability:
-                    self.toolbox.mutate(ind1)
+                    ind1[0] = self.toolbox.mutate(ind1)
                 if random.random() <= self.mutation_probability:
-                    self.toolbox.mutate(ind2)
+                    ind2[0] = self.toolbox.mutate(ind2)
                 del ind1.fitness.values, ind2.fitness.values
 
             # Evaluate the individuals with an invalid fitness
+            # TODO Sometimes evaluation is NONE. Repeat in wrapper until it's fine?
+            # TODO Repeating does not work. Should check why
             invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
             fitness_results = self.toolbox.map(self.toolbox.evaluate, invalid_ind)
             for ind, fit in zip(invalid_ind, fitness_results):
+                if hasattr(self, 'optimization_criteria'):
+                    try:
+                        fit = [fit[0]['evaluations'][''][crit] for crit in self.optimization_criteria]
+                    except:
+                        print(invalid_ind)
+                        print(fit)
                 ind.fitness.values = fit
 
             population = self.toolbox.select(population + offspring, len(population))

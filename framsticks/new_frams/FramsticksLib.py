@@ -69,7 +69,7 @@ class FramsticksLib:
 			Note that for whatever reason (e.g. incorrect genotype), the dictionaries you will get may be empty or
 			partially empty and may not have the fields you expected, so handle such cases properly.
 		"""
-		assert isinstance(genotype_list, list)  # because in python str has similar capabilities as list and here it would pretend to work , so to avoid any ambiguity
+		assert isinstance(genotype_list, list)  # because in python str has similar capabilities as list and here it would pretend to work too, so to avoid any ambiguity
 
 		if not self.PRINT_FRAMSTICKS_OUTPUT:
 			ec = frams.MessageCatcher.new()  # mute potential errors, warnings, messages

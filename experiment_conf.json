@@ -2,11 +2,21 @@
     "experiments": {
         "dtlz1": {
             "benchmark_name": "dtlz1",
-            "num_of_islands": 10,
+            "num_of_islands": 3,
             "migration_ratio": 0.1,
             "migration_method": "convection_const",
             "num_of_benchmark_objectives": 3,
-            "population_size": 100,
+            "population_size": 2,
+            "max_iterations_wo_improvement": 10,
+            "register_statistics": true
+        },
+        "frams": {
+            "benchmark_name": "frams",
+            "num_of_islands": 3,
+            "migration_ratio": 0.1,
+            "migration_method": "convection_const",
+            "num_of_benchmark_objectives": 3,
+            "population_size": 2,
             "max_iterations_wo_improvement": 10,
             "register_statistics": true
         }

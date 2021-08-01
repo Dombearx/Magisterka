@@ -21,8 +21,8 @@ def register_standard(attributes, creator, cli):
     return toolbox
 
 
-def get_toolbox(frams_path, OPTIMIZATION_CRITERIA):
-    creator.create("FitnessMax", base.Fitness, weights=[1.0] * len(OPTIMIZATION_CRITERIA))
+def get_toolbox(experiment_name, frams_path, optimization_criteria):
+    creator.create("FitnessMax", base.Fitness, weights=[1.0] * len(optimization_criteria))
     creator.create("Individual", list, fitness=creator.FitnessMax)
 
     attributes = 1

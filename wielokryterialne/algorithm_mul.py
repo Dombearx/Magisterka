@@ -1,16 +1,13 @@
 # RAW ALGORITHM
-from deap import creator, base, tools, algorithms, benchmarks
+from deap import tools
 import time
 import migration as mig
 import numpy
 import pickle
 import sys
-import random
 import benchmarks_conf as bc
-import os
 import nsga2_alg
 import utils
-from copy import deepcopy
 
 # Przetwarzanie parametrów
 # argv[0] to nazwa programu - tak jest domyślnie

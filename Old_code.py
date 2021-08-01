@@ -5,7 +5,7 @@ from deap import tools
 import numpy as np
 
 from wielokryterialne.nsga2_alg import nsga2Algorithm, myParetoFront
-from wielokryterialne.benchmarks_conf import get_dtlz1_toolbox, getDTLZ2ToolBox, getDTLZ3ToolBox, getDTLZ4ToolBox
+from benchmarks_conf import get_dtlz1_toolbox, getDTLZ2ToolBox, getDTLZ3ToolBox, getDTLZ4ToolBox
 from wielokryterialne.migration import migSelFrontsContsInslands, migSelOneFrontOneIsland, migIslandsRandom
 from wielokryterialne.utils import Result
 from wielokryterialne.frams_toolbox_lib import get_toolbox

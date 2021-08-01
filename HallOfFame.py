@@ -83,7 +83,8 @@ def prepare_hall_of_fame(toolbox: base.Toolbox, size: int) -> SimpleParetoFront:
 
 
 def update_hall_of_fame(toolbox: base.Toolbox, population: list,
-                        old_hall_of_fame: BasicParetoFront) -> BasicParetoFront:
-    old_hall_of_fame.update(population)
-
-    return old_hall_of_fame
+                        old_hall_of_fame: BasicParetoFront) -> (BasicParetoFront, list):
+    removed_individuals = 0
+    for island in population:
+        removed_individuals += old_hall_of_fame.update(island)
+    return old_hall_of_fame, removed_individuals
