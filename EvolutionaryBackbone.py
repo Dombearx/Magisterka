@@ -18,7 +18,7 @@ class EvolutionaryBackbone:
                  prepare_logs: Callable[[base.Toolbox], list],
                  update_hall_of_fame: Callable[[base.Toolbox, list, BasicParetoFront], tuple[BasicParetoFront, int]],
                  update_logs: Callable[[base.Toolbox, list, list], list],
-                 print_statistics: Callable[[list, BasicParetoFront], None],
+                 print_statistics: Callable[[list, BasicParetoFront, int, ...], None],
                  toolbox: base.Toolbox,
                  *args, **kwargs):
         self.toolbox = toolbox
@@ -61,14 +61,18 @@ class EvolutionaryBackbone:
 
             populations = self.migrate(populations, *self.migrate_args)
 
+            # print("run alg")
             result = self.toolbox.map(self.run_algorithm, populations)
 
+            # print("clear results")
             populations = self.clear_results(result)
 
             hall_of_fame, removed_individuals = self.update_hall_of_fame(self.toolbox, populations, hall_of_fame)
             logs = self.update_logs(self.toolbox, populations, logs)
 
-            self.print_statistics(populations, hall_of_fame)
+            # print("print stats")
+            # TODO Is it working?
+            self.print_statistics(populations, hall_of_fame, iteration_number)
             iteration_number += 1
 
             should_run = self.should_still_run(removed_individuals, iteration_number, *self.should_still_run_args)

@@ -5,7 +5,7 @@ from deap import tools
 
 from AlgorithmBackbone import Nsga2Algorithm
 from EvolutionaryBackbone import EvolutionaryBackbone
-from HallOfFame import prepare_hall_of_fame, update_hall_of_fame
+from HallOfFame import prepare_hall_of_fame, update_hall_of_fame, prepare_precision_hall_of_fame
 from Logs import logs_do_nothing, update_logs
 from Migration import migrate_one_front_one_island, migrate_const_islands, migrate_random
 from Populations import create_simple_population, create_islands_population, population_do_nothing, clear_do_nothing, clear_population
@@ -41,6 +41,7 @@ if __name__ == "__main__":
     objectives = 3
     lower_bound = 0.0
     upper_bound = 1.0
+    # TODO Fix gaussian mutation
     # experiment = Experiment("dtlz2", objectives, lower_bound, upper_bound)
     frams_path = r'H:\Polibuda\Magisterka\Magisterka\framsticks\Framsticks50rc19'
     optimization_criteria = ['vertpos', 'velocity']
@@ -49,7 +50,7 @@ if __name__ == "__main__":
 
     mutation_probability = 0.9
     crossover_probability = 0.5
-    number_of_generations = 100
+    number_of_generations = 50
     sort_population = tools.selTournamentDCD
 
     alg = Nsga2Algorithm(
@@ -68,17 +69,18 @@ if __name__ == "__main__":
         population_do_nothing,
         alg.run,
         migrate_const_islands,
+        # n_iters_run,
         NItersWithoutImprovement().n_iters_without_improvement,
         clear_population,
-        prepare_hall_of_fame,
+        prepare_precision_hall_of_fame,
         logs_do_nothing,
         update_hall_of_fame,
         update_logs,
         print_statistics,
         toolbox,
-        create_population_args=[3, 2],
-        prepare_hall_of_fame_args=[10],
-        should_still_run_args=[100],
+        create_population_args=[5, 20],
+        prepare_hall_of_fame_args=[10, [2, 2]],
+        should_still_run_args=[10],
         migrate_args=[2]
     )
 
@@ -87,7 +89,7 @@ if __name__ == "__main__":
 
     stats = pstats.Stats(pr)
     stats.sort_stats(pstats.SortKey.TIME)
-    # stats.print_stats()
+    stats.print_stats()
 
     for ind in hall_of_fame:
         print(ind, ind.fitness)

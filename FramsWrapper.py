@@ -16,12 +16,12 @@ def wrapper_mutate(cli: FramsticksLib, genotype_list: list[str]) -> str:
 def wrapper_evaluate(cli: FramsticksLib, genotype_list: list[str]) -> dict:
     results = cli.evaluate(genotype_list)
 
-    while results[0]['evaluations'] is None:
-        print("Found None")
-        print(genotype_list)
-        # Not working: C(LLRX[|, p:0.25, r:1][|]X[|, p:0.1], )
-
-        results = cli.evaluate(genotype_list)
+    # while results[0]['evaluations'] is None:
+    #     print("Found None")
+    #     print(genotype_list)
+    #     # Not working: C(LLRX[|, p:0.25, r:1][|]X[|, p:0.1], )
+    #
+    #     results = cli.evaluate(genotype_list)
 
     return results
 
@@ -32,3 +32,8 @@ def wrapper_crossover(cli: FramsticksLib, genotype_parent1: list, genotype_paren
 
     return genotype1, genotype2
 
+
+def wrapper_crossover_one_child(cli: FramsticksLib, genotype_parent1: list, genotype_parent2: list) -> str:
+    genotype1 = cli.crossOver(genotype_parent1[0], genotype_parent2[0])
+
+    return genotype1

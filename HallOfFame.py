@@ -48,6 +48,7 @@ class SimpleParetoFront(BasicParetoFront):
         self.max_len = max_len
         self.similar = similar
 
+
     def update(self, population):
 
         removed = 0
@@ -78,9 +79,67 @@ class SimpleParetoFront(BasicParetoFront):
         return removed
 
 
+class ApproximateParetoFront(BasicParetoFront):
+
+    def __init__(self, max_len, precisions, similar=eq):
+        self.keys = list()
+        self.items = list()
+        self.max_len = max_len
+        self.similar = similar
+        self.precisions = precisions
+
+    def is_same(self, hofer, other, precisions):
+        for v1, v2, prec in zip(hofer.fitness.wvalues, other.fitness.wvalues, precisions):
+            if round(v1, prec) != round(v2, prec):
+                return False
+
+        return True
+
+    def dominates_with_precision(self, other, hofer, precisions):
+        for v1, v2, prec in zip(other.fitness.wvalues, hofer.fitness.wvalues, precisions):
+            if round(v1, prec) < round(v2, prec):
+                return False
+
+        return True
+
+    def update(self, population):
+
+        removed = 0
+
+
+        for ind in population:
+            to_remove = []
+            # print("testing", ind.fitness)
+            has_twin = False
+            dominates_one = False
+            is_dominated = False
+            for i, hofer in enumerate(self):
+                if self.is_same(hofer, ind, self.precisions):
+                    has_twin = True
+                    break
+                if self.dominates_with_precision(ind, hofer, self.precisions):
+                    to_remove.append(i)
+                    dominates_one = True
+                if not dominates_one and self.dominates_with_precision(hofer, ind, self.precisions):
+                    is_dominated = True
+                    break
+
+            for i in reversed(to_remove):  # Remove the dominated hofer
+                # print("removing", i, self, has_twin, dominates_one, is_dominated)
+                self.remove(i)
+                removed += 1
+            if not is_dominated and not has_twin:
+                if len(self) < self.max_len:
+                    self.insert(ind)
+
+        return removed
+
+
 def prepare_hall_of_fame(toolbox: base.Toolbox, size: int) -> SimpleParetoFront:
     return SimpleParetoFront(size)
 
+def prepare_precision_hall_of_fame(toolbox: base.Toolbox, size: int, precisions: list) -> ApproximateParetoFront:
+    return ApproximateParetoFront(size, precisions)
 
 def update_hall_of_fame(toolbox: base.Toolbox, population: list,
                         old_hall_of_fame: BasicParetoFront) -> (BasicParetoFront, list):

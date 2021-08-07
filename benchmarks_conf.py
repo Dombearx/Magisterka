@@ -8,13 +8,15 @@ except ImportError:
     from collections import Sequenc
 
 from framsticks.new_frams.FramsticksLib import FramsticksLib
-from FramsWrapper import wrapper_evaluate, wrapper_mutate, wrapper_crossover, wrapper_get_simplest
+from FramsWrapper import wrapper_evaluate, wrapper_mutate, \
+    wrapper_crossover, wrapper_get_simplest, wrapper_crossover_one_child
 
 
 def gaussian_mutation(individual, mu, sigma, index, upper_bound, lower_bound):
-    individual[index] += random.gauss(mu, sigma)
-    individual[index] = max(min(individual[index], upper_bound), lower_bound)
-    return individual,
+    val = individual[index]
+    val += random.gauss(mu, sigma)
+    val = max(min(val, upper_bound), lower_bound)
+    return val
 
 
 def random_mut_gaussian(ind, mu, sigma, upper_bound, lower_bound):
