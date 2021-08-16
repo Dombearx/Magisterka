@@ -6,9 +6,10 @@ from deap import tools
 from AlgorithmBackbone import Nsga2Algorithm
 from EvolutionaryBackbone import EvolutionaryBackbone
 from HallOfFame import prepare_hall_of_fame, update_hall_of_fame, prepare_precision_hall_of_fame
-from Logs import logs_do_nothing, update_logs
+from Logs import logs_do_nothing, update_logs, prepare_standard_logbook
 from Migration import migrate_one_front_one_island, migrate_const_islands, migrate_random
-from Populations import create_simple_population, create_islands_population, population_do_nothing, clear_do_nothing, clear_population
+from Populations import create_simple_population, create_islands_population, population_do_nothing
+from Results import clear_do_nothing, clear_population
 from ShouldRun import n_iters_run, NItersWithoutImprovement
 from Statistics import print_statistics
 from experiments import Experiment
@@ -50,7 +51,7 @@ if __name__ == "__main__":
 
     mutation_probability = 0.9
     crossover_probability = 0.5
-    number_of_generations = 50
+    number_of_generations = 5
     sort_population = tools.selTournamentDCD
 
     alg = Nsga2Algorithm(
@@ -73,15 +74,16 @@ if __name__ == "__main__":
         NItersWithoutImprovement().n_iters_without_improvement,
         clear_population,
         prepare_precision_hall_of_fame,
-        logs_do_nothing,
+        prepare_standard_logbook,
         update_hall_of_fame,
         update_logs,
         print_statistics,
         toolbox,
-        create_population_args=[5, 20],
+        create_population_args=[2, 4],
         prepare_hall_of_fame_args=[10, [2, 2]],
-        should_still_run_args=[10],
-        migrate_args=[2]
+        should_still_run_args=[2],
+        migrate_args=[2],
+        create_logs_args=[2]
     )
 
     with cProfile.Profile() as pr:

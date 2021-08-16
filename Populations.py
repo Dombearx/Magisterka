@@ -15,14 +15,4 @@ def population_do_nothing(toolbox: base.Toolbox, population: list) -> list:
     return population
 
 
-def clear_do_nothing(population: list) -> list:
-    return population
 
-
-def clear_population(populations: list) -> list:
-    # print(zip(*population))
-    # zipped = list(map(list, zip(*population)))
-    # islands = zipped[0]
-    # print("islands", islands)
-
-    return list(populations)

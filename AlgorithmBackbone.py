@@ -1,8 +1,7 @@
 import random
-import pprint as pp
 from typing import Callable
 
-from deap import base
+from deap import base, tools
 
 
 class BasicAlgorithm:
@@ -10,7 +9,7 @@ class BasicAlgorithm:
     def __init__(self):
         pass
 
-    def run(self, population: list) -> list:
+    def run(self, population: list, logbook: tools.Logbook, stats: tools.Statistics) -> [list, tools.Logbook]:
         pass
 
 
@@ -29,7 +28,8 @@ class Nsga2Algorithm(BasicAlgorithm):
         if 'optimization_criteria' in kwargs.keys():
             self.optimization_criteria = kwargs['optimization_criteria']
 
-    def run(self, population: list) -> list:
+    def run(self, population: list, logbook: tools.Logbook, stats: tools.Statistics) -> [list, tools.Logbook]:
+        # One island run
 
         # Evaluate the individuals with an invalid fitness
         invalid_ind = [ind for ind in population if not ind.fitness.valid]
@@ -44,6 +44,10 @@ class Nsga2Algorithm(BasicAlgorithm):
         # This is just to assign the crowding distance to the individuals
         # no actual selection is done
         population = self.toolbox.select(population, len(population))
+
+        record = stats.compile(population)
+        logbook.record(gen=0, number_of_evaluations=len(invalid_ind), **record)
+
         for generation in range(1, self.number_of_generations + 1):
 
             number_of_unchanged_individuals = len(population)
@@ -95,4 +99,7 @@ class Nsga2Algorithm(BasicAlgorithm):
 
             population = self.toolbox.select(population + offspring, len(population))
 
-        return population
+            record = stats.compile(population)
+            logbook.record(gen=generation, number_of_evaluations=len(invalid_ind), **record)
+
+        return population, logbook
