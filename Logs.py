@@ -26,5 +26,5 @@ def logs_do_nothing(toolbox: base.Toolbox) -> tools.Logbook:
     return logbook
 
 
-def update_logs(toolbox: base.Toolbox, population: list, logs: tools.Logbook) -> tools.Logbook:
+def update_logs(toolbox: base.Toolbox, population: list, logs: list) -> list:
     return logs

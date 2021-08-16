@@ -62,21 +62,18 @@ class EvolutionaryBackbone:
 
             populations = self.migrate(populations, *self.migrate_args)
 
-            # print("run alg")
             result = self.toolbox.map(lambda population, log: self.run_algorithm(population, log, stats), populations, logs)
 
-            # print("clear results")
             populations, logs = self.clear_results(result)
 
             hall_of_fame, removed_individuals = self.update_hall_of_fame(self.toolbox, populations, hall_of_fame)
+
+            # TODO Remove? Does nothing for now
             logs = self.update_logs(self.toolbox, populations, logs)
 
-            # print("print stats")
-            # TODO Is it working?
             self.print_statistics(populations, hall_of_fame, iteration_number, logs)
             iteration_number += 1
 
             should_run = self.should_still_run(removed_individuals, iteration_number, *self.should_still_run_args)
 
-        print(f"{iteration_number = }")
         return hall_of_fame, logs

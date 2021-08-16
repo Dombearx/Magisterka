@@ -1,5 +1,6 @@
 import cProfile
 import pstats
+import time
 
 from deap import tools
 
@@ -13,7 +14,7 @@ from Results import clear_do_nothing, clear_population
 from ShouldRun import n_iters_run, NItersWithoutImprovement
 from Statistics import print_statistics
 from experiments import Experiment
-from utils import load_config
+from utils import load_config, save_results
 
 OPTIMIZATION_CRITERIA = ['velocity']
 
@@ -32,6 +33,7 @@ if __name__ == "__main__":
     #                  toolbox.attr_float, n_attributes)
     # toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
+    # TODO Make config work as it should
     config = load_config("experiment_conf.json")
 
     experiments = config["experiments"]["dtlz1"]
@@ -86,15 +88,23 @@ if __name__ == "__main__":
         create_logs_args=[2]
     )
 
+    start_time = time.time()
+
     with cProfile.Profile() as pr:
         hall_of_fame, logs = evolutionary_backbone.run()
 
+    final_time = time.time() - start_time
+
     stats = pstats.Stats(pr)
     stats.sort_stats(pstats.SortKey.TIME)
-    stats.print_stats()
+    # stats.print_stats()
 
     for ind in hall_of_fame:
         print(ind, ind.fitness)
+
+    # TODO Saving results (just name for file needed)
+    # save_results(hall_of_fame, logs, final_time)
+
 
     # pp.pprint(pop)
 
