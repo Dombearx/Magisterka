@@ -15,31 +15,34 @@
             "num_of_islands": 3,
             "migration_ratio": 0.1,
             "migration_method": "convection_const",
-            "num_of_benchmark_objectives": 3,
             "population_size": 2,
             "max_iterations_wo_improvement": 10,
-            "register_statistics": true
+            "frams_path": "H:\\Polibuda\\Magisterka\\Magisterka\\framsticks\\Framsticks50rc19"
         }
     },
 
     "benchmarks": {
         "dtlz1": {
             "direction": "min",
+            "objectives": 2,
             "lower_bound": 0.0,
             "upper_bound": 1.0
         },
         "dtlz2": {
             "direction": "min",
+            "objectives": 2,
             "lower_bound": 0.0,
             "upper_bound": 1.0
         },
         "dtlz3": {
             "direction": "min",
+            "objectives": 2,
             "lower_bound": 0.0,
             "upper_bound": 1.0
         },
         "dtlz4": {
             "direction": "min",
+            "objectives": 2,
             "lower_bound": 0.0,
             "upper_bound": 1.0
         }

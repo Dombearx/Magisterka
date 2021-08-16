@@ -1,4 +1,6 @@
 import pprint as pp
+
+
 def clear_do_nothing(population: list) -> list:
     return population
 

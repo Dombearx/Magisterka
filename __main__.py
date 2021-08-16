@@ -11,7 +11,7 @@ from Logs import logs_do_nothing, update_logs, prepare_standard_logbook
 from Migration import migrate_one_front_one_island, migrate_const_islands, migrate_random
 from Populations import create_simple_population, create_islands_population, population_do_nothing
 from Results import clear_do_nothing, clear_population
-from ShouldRun import n_iters_run, NItersWithoutImprovement
+from ShouldRun import n_iters_run, n_iters_without_improvement
 from Statistics import print_statistics
 from experiments import Experiment
 from utils import load_config, save_results
@@ -36,19 +36,18 @@ if __name__ == "__main__":
     # TODO Make config work as it should
     config = load_config("experiment_conf.json")
 
-    experiments = config["experiments"]["dtlz1"]
-    print(experiments)
+    benchmark_name = "dtlz1"
+    experiment_data = config["experiments"][benchmark_name]
+    benchmark_data = config["benchmarks"][benchmark_name]
+    print(experiment_data)
 
     # experiment_name = experiments.keys()[0]
 
-    objectives = 3
-    lower_bound = 0.0
-    upper_bound = 1.0
     # TODO Fix gaussian mutation
-    # experiment = Experiment("dtlz2", objectives, lower_bound, upper_bound)
-    frams_path = r'H:\Polibuda\Magisterka\Magisterka\framsticks\Framsticks50rc19'
-    optimization_criteria = ['vertpos', 'velocity']
-    experiment = Experiment("frams", frams_path, optimization_criteria)
+    experiment = Experiment("dtlz2", **benchmark_data)
+    # frams_path = r'H:\Polibuda\Magisterka\Magisterka\framsticks\Framsticks50rc19'
+    # optimization_criteria = ['vertpos', 'velocity']
+    # experiment = Experiment("frams", frams_path, optimization_criteria)
     toolbox = experiment.toolbox
 
     mutation_probability = 0.9
@@ -62,18 +61,15 @@ if __name__ == "__main__":
         crossover_probability,
         number_of_generations,
         sort_population,
-        optimization_criteria=optimization_criteria
+        # optimization_criteria=optimization_criteria
     )
-
-    pop = create_simple_population(toolbox, 3)
 
     evolutionary_backbone = EvolutionaryBackbone(
         create_islands_population,
         population_do_nothing,
         alg.run,
         migrate_const_islands,
-        # n_iters_run,
-        NItersWithoutImprovement().n_iters_without_improvement,
+        n_iters_without_improvement,
         clear_population,
         prepare_precision_hall_of_fame,
         prepare_standard_logbook,
@@ -104,12 +100,3 @@ if __name__ == "__main__":
 
     # TODO Saving results (just name for file needed)
     # save_results(hall_of_fame, logs, final_time)
-
-
-    # pp.pprint(pop)
-
-    # print(f"Running {__name__}")
-    #
-    # e = Experiment("frams", "./framsticks/Framsticks50rc19", OPTIMIZATION_CRITERIA)
-    #
-    # print(e.toolbox)

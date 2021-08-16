@@ -35,7 +35,7 @@ BENCHMARKS = {
 }
 
 
-def get_frams_toolbox(experiment_name, frams_path, optimization_criteria):
+def get_frams_nsga2_toolbox(experiment_name, frams_path, optimization_criteria):
     creator.create("FitnessMax", base.Fitness, weights=[1.0] * len(optimization_criteria))
     creator.create("Individual", list, fitness=creator.FitnessMax)
 
@@ -59,8 +59,11 @@ def get_frams_toolbox(experiment_name, frams_path, optimization_criteria):
     return toolbox
 
 
-def get_nsga2_toolbox(benchmark_name, objectives, lower_bound, upper_bound, *args):
-    weights_tuple = (-1,) * objectives
+def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, upper_bound, *args):
+    if direction == "min":
+        weights_tuple = (-1,) * objectives
+    else:
+        weights_tuple = (1,) * objectives
 
     creator.create("FitnessMin", base.Fitness, weights=weights_tuple)
     creator.create("Individual", list, fitness=creator.FitnessMin)

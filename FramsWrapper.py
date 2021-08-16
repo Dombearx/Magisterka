@@ -16,13 +16,6 @@ def wrapper_mutate(cli: FramsticksLib, genotype_list: list[str]) -> str:
 def wrapper_evaluate(cli: FramsticksLib, genotype_list: list[str]) -> dict:
     results = cli.evaluate(genotype_list)
 
-    # while results[0]['evaluations'] is None:
-    #     print("Found None")
-    #     print(genotype_list)
-    #     # Not working: C(LLRX[|, p:0.25, r:1][|]X[|, p:0.1], )
-    #
-    #     results = cli.evaluate(genotype_list)
-
     return results
 
 

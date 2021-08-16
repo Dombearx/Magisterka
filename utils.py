@@ -2,6 +2,7 @@ import json
 from HallOfFame import BasicParetoFront
 import pickle
 
+
 def load_config(filename: str) -> dict:
     with open(filename) as json_file:
         data = json.load(json_file)
@@ -27,8 +28,7 @@ class Result:
 
 
 def save_results(benchmark_name: str, benchmark_stats, hall_of_fame: BasicParetoFront, logs: list, time: float) -> None:
-
-    pickleOut = open("./Tests_results/" + benchmark_name + "_".join(*benchmark_stats) + ".pickle", "wb")
+    pickleOut = open("./Tests_results/" + benchmark_name + "_" + "_".join(*benchmark_stats) + ".pickle", "wb")
 
     pickle.dump(Result(logs, hall_of_fame, time), pickleOut)
 

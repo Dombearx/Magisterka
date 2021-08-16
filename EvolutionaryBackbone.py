@@ -11,7 +11,7 @@ class EvolutionaryBackbone:
                  create_population: Callable[[base.Toolbox, ...], list],
                  prepare_population: Callable[[base.Toolbox, list], list],
                  run_algorithm: Callable[[list, tools.Logbook, tools.Statistics], tuple[list, list]],
-                 migrate: Callable[[list], list],
+                 migrate: Callable[[list, ...], list],
                  should_still_run: Callable[[int, int, ...], bool],
                  clear_results: Callable[[list], list],
                  prepare_hall_of_fame: Callable[[base.Toolbox, ...], BasicParetoFront],

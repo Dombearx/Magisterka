@@ -48,7 +48,6 @@ class SimpleParetoFront(BasicParetoFront):
         self.max_len = max_len
         self.similar = similar
 
-
     def update(self, population):
 
         removed = 0
@@ -106,7 +105,6 @@ class ApproximateParetoFront(BasicParetoFront):
 
         removed = 0
 
-
         for ind in population:
             to_remove = []
             # print("testing", ind.fitness)
@@ -138,8 +136,10 @@ class ApproximateParetoFront(BasicParetoFront):
 def prepare_hall_of_fame(toolbox: base.Toolbox, size: int) -> SimpleParetoFront:
     return SimpleParetoFront(size)
 
+
 def prepare_precision_hall_of_fame(toolbox: base.Toolbox, size: int, precisions: list) -> ApproximateParetoFront:
     return ApproximateParetoFront(size, precisions)
+
 
 def update_hall_of_fame(toolbox: base.Toolbox, population: list,
                         old_hall_of_fame: BasicParetoFront) -> (BasicParetoFront, list):

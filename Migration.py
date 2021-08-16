@@ -38,28 +38,29 @@ def migrate_const_islands(population: list, number_of_islands: int) -> list:
 
 # Migracja między wyspami w selekcji konwekcyjnej dla problemów WIELOKRYTERIALNYCH
 
+# TODO Check if it is correct
 def migrate_one_front_one_island(population: list) -> list:
-    whole_population = []
-
-    for island in population:
-        whole_population += island
+    whole_population = [ind for island in population for ind in island]
 
     pareto_fronts = tools.sortNondominated(whole_population, len(whole_population))
 
-    for i, new_island in enumerate(pareto_fronts):
-        if i >= len(population):
-            population.append(new_island)
-        else:
-            population[i] = new_island
+    # for i, new_island in enumerate(pareto_fronts):
+    #     if i >= len(population):
+    #         population.append(new_island)
+    #     else:
+    #         population[i] = new_island
+    #
+    # if len(population) > len(pareto_fronts):
+    #     del population[len(pareto_fronts):]
+    print(whole_population)
+    print(pareto_fronts)
 
-    if len(population) > len(pareto_fronts):
-        del population[len(pareto_fronts):]
-
-    return population
+    return pareto_fronts
 
 
 # Migracja między wyspami w selekcji konwekcyjnej dla problemów JEDNOKRYTERIALNYCH
 
+# TODO Check if it is correct
 def migrate_const_islands_one_criteria(population: list, number_of_islands: int) -> list:
     whole_population = []
 
@@ -95,6 +96,7 @@ def migrate_const_islands_one_criteria(population: list, number_of_islands: int)
     return population
 
 
+# TODO Check if it is correct
 def migrate_random(population: list, number_of_islands: int) -> list:
     whole_population = []
 
