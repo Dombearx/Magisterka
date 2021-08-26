@@ -25,6 +25,12 @@ def random_mut_gaussian(ind, mu, sigma, upper_bound, lower_bound):
     return gaussian_mutation(ind, mu=mu, sigma=sigma, index=index, upper_bound=upper_bound, lower_bound=lower_bound)
 
 
+def cx_uniform_one_child(ind1, ind2, indpb):
+    i1, i2 = tools.cxUniform(ind1, ind2, indpb)
+
+    return i1
+
+
 # Wielokryterialne do NSGA2
 
 BENCHMARKS = {
@@ -59,6 +65,7 @@ def get_frams_nsga2_toolbox(experiment_name, frams_path, optimization_criteria):
     return toolbox
 
 
+# TODO Inside crossover probability is hardcoded
 def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, upper_bound, *args):
     if direction == "min":
         weights_tuple = (-1,) * objectives
@@ -66,7 +73,8 @@ def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, u
         weights_tuple = (1,) * objectives
 
     creator.create("FitnessMin", base.Fitness, weights=weights_tuple)
-    creator.create("Individual", list, fitness=creator.FitnessMin)
+    creator.create("ParetoFrontNumber", int)
+    creator.create("Individual", list, fitness=creator.FitnessMin, front_number=creator.ParetoFrontNumber)
 
     attributes = objectives  # objectives + k - 1 ????????????
 
@@ -81,7 +89,7 @@ def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, u
         return BENCHMARKS[benchmark_name](individual, objectives, *args)
 
     toolbox.register("evaluate", eval_benchmark)
-    toolbox.register("mate", tools.cxUniform, indpb=0.5)
+    toolbox.register("mate", cx_uniform_one_child, indpb=0.5)
     toolbox.register("mutate", random_mut_gaussian, mu=0,
                      sigma=(upper_bound - lower_bound) / 10, upper_bound=upper_bound, lower_bound=lower_bound)
 

@@ -43,6 +43,7 @@ class Nsga2Algorithm(BasicAlgorithm):
 
         # This is just to assign the crowding distance to the individuals
         # no actual selection is done
+        # niepotrzebne jeżeli binary tournament (czyli tournament z k == 2)? wtedy bez DCD wszystko inplace
         population = self.toolbox.select(population, len(population))
 
         record = stats.compile(population)
@@ -73,8 +74,11 @@ class Nsga2Algorithm(BasicAlgorithm):
 
                 for ind1, ind2 in zip(tmp_offspring[::2], tmp_offspring[1::2]):
                     if random.random() <= self.crossover_probability:
-                        ind1[0], ind2[0] = self.toolbox.mate(ind1, ind2)
-
+                        # TODO can be done better?
+                        if hasattr(self, 'optimization_criteria'):
+                            ind1[0], ind2[0] = self.toolbox.mate(ind1, ind2)
+                        else:
+                            ind1, ind2 = self.toolbox.mate(ind1, ind2)
                     if random.random() <= self.mutation_probability:
                         ind1[0] = self.toolbox.mutate(ind1)
                     if random.random() <= self.mutation_probability:
@@ -97,6 +101,8 @@ class Nsga2Algorithm(BasicAlgorithm):
 
                 i += 1
 
+            # Czy to ma sens? Poczytać o NSGA2 bo jak jest tournamentDCD to chyba nie ma sensu nsga2 dodatkowo
+            # Czyli bez tournament DCD tylko tam binary tournament i potem robimy selNSGA2 i tam jest używany crowding distance
             population = self.toolbox.select(population + offspring, len(population))
 
             record = stats.compile(population)

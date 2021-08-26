@@ -4,7 +4,7 @@ import time
 
 from deap import tools
 
-from AlgorithmBackbone import Nsga2Algorithm
+from AlgorithmBackboneInPlace import Nsga2Algorithm
 from EvolutionaryBackbone import EvolutionaryBackbone
 from HallOfFame import prepare_hall_of_fame, update_hall_of_fame, prepare_precision_hall_of_fame
 from Logs import logs_do_nothing, update_logs, prepare_standard_logbook
@@ -43,7 +43,6 @@ if __name__ == "__main__":
 
     # experiment_name = experiments.keys()[0]
 
-    # TODO Fix gaussian mutation
     experiment = Experiment("dtlz2", **benchmark_data)
     # frams_path = r'H:\Polibuda\Magisterka\Magisterka\framsticks\Framsticks50rc19'
     # optimization_criteria = ['vertpos', 'velocity']
@@ -64,6 +63,7 @@ if __name__ == "__main__":
         # optimization_criteria=optimization_criteria
     )
 
+    # TODO Name parameters and load from json
     evolutionary_backbone = EvolutionaryBackbone(
         create_islands_population,
         population_do_nothing,
