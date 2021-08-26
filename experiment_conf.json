@@ -1,50 +1,67 @@
 {
     "experiments": {
         "dtlz1": {
-            "benchmark_name": "dtlz1",
-            "num_of_islands": 3,
-            "migration_ratio": 0.1,
-            "migration_method": "convection_const",
-            "num_of_benchmark_objectives": 3,
-            "population_size": 2,
-            "max_iterations_wo_improvement": 10,
-            "register_statistics": true
+            "experiment_args": {
+                "direction": "min",
+                "objectives": 2,
+                "lower_bound": 0.0,
+                "upper_bound": 1.0
+            },
+            "nsga2_args": {
+                "mutation_probability": 0.9,
+                "crossover_probability": 0.5,
+                "number_of_generations": 5
+            },
+            "main_alg_args": {
+                "create_population_args": {
+                    "num_of_islands": 2,
+                    "num_of_individuals": 4
+                },
+                "prepare_hall_of_fame_args": {
+                    "size": 10,
+                    "precisions": [2, 2]
+                },
+                "should_still_run_args": {
+                    "max_iters": 2
+                },
+                "migrate_args": {
+                    "number_of_islands": 2
+                },
+                "create_logs_args": {
+                    "number_of_islands": 2
+                }
+            }
         },
         "frams": {
-            "benchmark_name": "frams",
-            "num_of_islands": 3,
-            "migration_ratio": 0.1,
-            "migration_method": "convection_const",
-            "population_size": 2,
-            "max_iterations_wo_improvement": 10,
-            "frams_path": "H:\\Polibuda\\Magisterka\\Magisterka\\framsticks\\Framsticks50rc19"
-        }
-    },
-
-    "benchmarks": {
-        "dtlz1": {
-            "direction": "min",
-            "objectives": 2,
-            "lower_bound": 0.0,
-            "upper_bound": 1.0
-        },
-        "dtlz2": {
-            "direction": "min",
-            "objectives": 2,
-            "lower_bound": 0.0,
-            "upper_bound": 1.0
-        },
-        "dtlz3": {
-            "direction": "min",
-            "objectives": 2,
-            "lower_bound": 0.0,
-            "upper_bound": 1.0
-        },
-        "dtlz4": {
-            "direction": "min",
-            "objectives": 2,
-            "lower_bound": 0.0,
-            "upper_bound": 1.0
+            "experiment_args": {
+                "frams_path": "H:\\Polibuda\\Magisterka\\Magisterka\\framsticks\\Framsticks50rc19",
+                "optimization_criteria": ["vertpos", "velocity"]
+            },
+            "nsga2_args": {
+                "mutation_probability": 0.9,
+                "crossover_probability": 0.5,
+                "number_of_generations": 5,
+                "optimization_criteria": ["vertpos", "velocity"]
+            },
+            "main_alg_args": {
+                "create_population_args": {
+                    "num_of_islands": 2,
+                    "num_of_individuals": 4
+                },
+                "prepare_hall_of_fame_args": {
+                    "size": 10,
+                    "precisions": [2, 2]
+                },
+                "should_still_run_args": {
+                    "max_iters": 2
+                },
+                "migrate_args": {
+                    "number_of_islands": 2
+                },
+                "create_logs_args": {
+                    "number_of_islands": 2
+                }
+            }
         }
     }
 }

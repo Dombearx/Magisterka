@@ -17,14 +17,12 @@ class BasicAlgorithm:
 class Nsga2Algorithm(BasicAlgorithm):
 
     def __init__(self, toolbox: base.Toolbox, mutation_probability: float, crossover_probability: float,
-                 number_of_generations: int, select_from_population: Callable[[list, int], list], *args, **kwargs):
+                 number_of_generations: int, *args, **kwargs):
         super().__init__()
         self.toolbox = toolbox
         self.mutation_probability = mutation_probability
         self.crossover_probability = crossover_probability
         self.number_of_generations = number_of_generations
-
-        self.select_from_population = select_from_population
 
         if 'optimization_criteria' in kwargs.keys():
             self.optimization_criteria = kwargs['optimization_criteria']

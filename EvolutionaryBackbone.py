@@ -41,26 +41,26 @@ class EvolutionaryBackbone:
         self.migrate = migrate
 
         # args
-        self.create_population_args = kwargs['create_population_args']
-        self.prepare_hall_of_fame_args = kwargs['prepare_hall_of_fame_args']
-        self.should_still_run_args = kwargs['should_still_run_args']
-        self.migrate_args = kwargs['migrate_args']
-        self.create_logs_args = kwargs['create_logs_args']
+        self.create_population_args = kwargs.pop('create_population_args', {})
+        self.prepare_hall_of_fame_args = kwargs.pop('prepare_hall_of_fame_args', {})
+        self.should_still_run_args = kwargs.pop('should_still_run_args', {})
+        self.migrate_args = kwargs.pop('migrate_args', {})
+        self.create_logs_args = kwargs.pop('create_logs_args', {})
 
     def run(self) -> tuple[BasicParetoFront, list]:
         should_run = True
 
-        populations = self.create_population(self.toolbox, *self.create_population_args)
+        populations = self.create_population(self.toolbox, **self.create_population_args)
         populations = self.prepare_population(self.toolbox, populations)
 
-        hall_of_fame = self.prepare_hall_of_fame(self.toolbox, *self.prepare_hall_of_fame_args)
-        logs, stats = self.prepare_logs(self.toolbox, *self.create_logs_args)
+        hall_of_fame = self.prepare_hall_of_fame(self.toolbox, **self.prepare_hall_of_fame_args)
+        logs, stats = self.prepare_logs(self.toolbox, **self.create_logs_args)
 
         iteration_number = 0
 
         while should_run:
 
-            populations = self.migrate(populations, *self.migrate_args)
+            populations = self.migrate(populations, **self.migrate_args)
 
             result = self.toolbox.map(lambda population, log: self.run_algorithm(population, log, stats), populations, logs)
 
@@ -74,6 +74,6 @@ class EvolutionaryBackbone:
             self.print_statistics(populations, hall_of_fame, iteration_number, logs)
             iteration_number += 1
 
-            should_run = self.should_still_run(removed_individuals, iteration_number, *self.should_still_run_args)
+            should_run = self.should_still_run(removed_individuals, iteration_number, **self.should_still_run_args)
 
         return hall_of_fame, logs
