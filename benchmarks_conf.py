@@ -57,7 +57,7 @@ def get_frams_nsga2_toolbox(experiment_name, frams_path, optimization_criteria):
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     toolbox.register("evaluate", wrapper_evaluate, cli)
-    toolbox.register("mate", wrapper_crossover, cli)
+    toolbox.register("mate", wrapper_crossover_one_child, cli)
     toolbox.register("mutate", wrapper_mutate, cli)
 
     toolbox.register("select", tools.selNSGA2)

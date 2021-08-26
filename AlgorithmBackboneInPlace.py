@@ -14,7 +14,6 @@ class BasicAlgorithm:
         pass
 
 
-# TODO STILL IN PROGRESS
 class Nsga2Algorithm(BasicAlgorithm):
 
     def __init__(self, toolbox: base.Toolbox, mutation_probability: float, crossover_probability: float,

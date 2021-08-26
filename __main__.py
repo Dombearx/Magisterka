@@ -19,19 +19,6 @@ from utils import load_config, save_results
 OPTIMIZATION_CRITERIA = ['velocity']
 
 if __name__ == "__main__":
-    # n_attributes = 2
-    #
-    # weights_tuple = (-1,) * n_attributes
-    #
-    # creator.create("FitnessMin", base.Fitness, weights=weights_tuple)
-    # creator.create("Individual", list, fitness=creator.FitnessMin)
-    #
-    # toolbox = base.Toolbox()
-    #
-    # toolbox.register("attr_float", random.uniform, 0, 1)
-    # toolbox.register("individual", tools.initRepeat, creator.Individual,
-    #                  toolbox.attr_float, n_attributes)
-    # toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     # TODO Make config work as it should
     config = load_config("experiment_conf.json")
@@ -43,10 +30,14 @@ if __name__ == "__main__":
 
     # experiment_name = experiments.keys()[0]
 
-    experiment = Experiment("dtlz2", **benchmark_data)
-    # frams_path = r'H:\Polibuda\Magisterka\Magisterka\framsticks\Framsticks50rc19'
-    # optimization_criteria = ['vertpos', 'velocity']
-    # experiment = Experiment("frams", frams_path, optimization_criteria)
+    # experiment = Experiment("dtlz2", **benchmark_data)
+    frams_path = r'H:\Polibuda\Magisterka\Magisterka\framsticks\Framsticks50rc19'
+    optimization_criteria = ['vertpos', 'velocity']
+    args = {
+        "frams_path": frams_path,
+        "optimization_criteria": optimization_criteria
+    }
+    experiment = Experiment("frams", **args)
     toolbox = experiment.toolbox
 
     mutation_probability = 0.9
@@ -60,7 +51,7 @@ if __name__ == "__main__":
         crossover_probability,
         number_of_generations,
         sort_population,
-        # optimization_criteria=optimization_criteria
+        optimization_criteria=optimization_criteria
     )
 
     # TODO Name parameters and load from json
