@@ -49,7 +49,7 @@ class Nsga2Algorithm(BasicAlgorithm):
 
         for generation in range(1, self.number_of_generations + 1):
             # Generate offspring:
-            print(f"{generation = }")
+            # print(f"{generation = }")
             offspring = []
 
             while len(offspring) < len(population):
@@ -83,7 +83,7 @@ class Nsga2Algorithm(BasicAlgorithm):
                     chosen.fitness.values = fitness
                     offspring.append(chosen)
 
-                print(offspring)
+                # print(offspring)
 
             population = self.toolbox.select(population + offspring, len(population))
 

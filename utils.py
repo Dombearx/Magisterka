@@ -11,6 +11,13 @@ def load_config(filename: str) -> dict:
     return data
 
 
+def defer(fn, args1):
+    def run(*args2):
+        return fn(*args2, **args1)
+
+    return run
+
+
 class Result:
 
     def __init__(self, logbooks, hall_of_fame, time, experiment_args):

@@ -6,23 +6,21 @@ from deap import tools
 
 from AlgorithmBackboneInPlace import Nsga2Algorithm
 from EvolutionaryBackbone import EvolutionaryBackbone
-from HallOfFame import prepare_hall_of_fame, update_hall_of_fame, prepare_precision_hall_of_fame
-from Logs import logs_do_nothing, update_logs, prepare_standard_logbook
-from Migration import migrate_one_front_one_island, migrate_const_islands, migrate_random
-from Populations import create_simple_population, create_islands_population, population_do_nothing
-from Results import clear_do_nothing, clear_population
-from ShouldRun import n_iters_run, n_iters_without_improvement
-from Statistics import print_statistics
+import HallOfFame
+import Logs
+import Populations
+import Migration
+import ShouldRun
+import Results
+import Statistics
 from experiments import Experiment
-from utils import load_config, save_results
-
-OPTIMIZATION_CRITERIA = ['velocity']
+from utils import load_config, save_results, defer
 
 if __name__ == "__main__":
 
     config = load_config("experiment_conf.json")
 
-    experiment_name = "frams"
+    experiment_name = "dtlz1"
     experiment_data = config["experiments"][experiment_name]
     experiment_args = experiment_data["experiment_args"]
     nsga2_args = experiment_data["nsga2_args"]
@@ -36,19 +34,30 @@ if __name__ == "__main__":
         **nsga2_args
     )
 
+    create_population = main_alg_args["create_population"]
+    migrate = main_alg_args["migrate"]
+    should_run = main_alg_args["should_run"]
+    get_results = main_alg_args["get_results"]
+    prepare_hall_of_fame = main_alg_args["prepare_hall_of_fame"]
+    prepare_logbook = main_alg_args["prepare_logbook"]
+    update_hall_of_fame = main_alg_args["update_hall_of_fame"]
+    update_logs = main_alg_args["update_logs"]
+    print_statistics = main_alg_args["print_statistics"]
+
+    print(Migration)
+
     evolutionary_backbone = EvolutionaryBackbone(
-        Populations[create_population],
+        defer(getattr(Populations, create_population["name"]), create_population["args"]),
         alg.run,
-        migrate_const_islands,
-        n_iters_without_improvement,
-        clear_population,
-        prepare_precision_hall_of_fame,
-        prepare_standard_logbook,
-        update_hall_of_fame,
-        update_logs,
-        print_statistics,
-        toolbox,
-        **main_alg_args
+        defer(getattr(Migration, migrate["name"]), migrate["args"]),
+        defer(getattr(ShouldRun, should_run["name"]), should_run["args"]),
+        defer(getattr(Results, get_results["name"]), get_results["args"]),
+        defer(getattr(HallOfFame, prepare_hall_of_fame["name"]), prepare_hall_of_fame["args"]),
+        defer(getattr(Logs, prepare_logbook["name"]), prepare_logbook["args"]),
+        defer(getattr(HallOfFame, update_hall_of_fame["name"]), update_hall_of_fame["args"]),
+        defer(getattr(Logs, update_logs["name"]), update_logs["args"]),
+        defer(getattr(Statistics, print_statistics["name"]), print_statistics["args"]),
+        toolbox
     )
 
     start_time = time.time()
