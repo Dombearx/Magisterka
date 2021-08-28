@@ -9,7 +9,6 @@ class EvolutionaryBackbone:
 
     def __init__(self,
                  create_population: Callable[[base.Toolbox, ...], list],
-                 prepare_population: Callable[[base.Toolbox, list], list],
                  run_algorithm: Callable[[list, tools.Logbook, tools.Statistics], tuple[list, list]],
                  migrate: Callable[[list, ...], list],
                  should_still_run: Callable[[int, int, ...], bool],
@@ -24,7 +23,6 @@ class EvolutionaryBackbone:
         self.toolbox = toolbox
 
         self.create_population = create_population
-        self.prepare_population = prepare_population
         self.run_algorithm = run_algorithm
 
         self.should_still_run = should_still_run
@@ -51,7 +49,6 @@ class EvolutionaryBackbone:
         should_run = True
 
         populations = self.create_population(self.toolbox, **self.create_population_args)
-        populations = self.prepare_population(self.toolbox, populations)
 
         hall_of_fame = self.prepare_hall_of_fame(self.toolbox, **self.prepare_hall_of_fame_args)
         logs, stats = self.prepare_logs(self.toolbox, **self.create_logs_args)

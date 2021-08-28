@@ -37,8 +37,7 @@ if __name__ == "__main__":
     )
 
     evolutionary_backbone = EvolutionaryBackbone(
-        create_islands_population,
-        population_do_nothing,
+        Populations[create_population],
         alg.run,
         migrate_const_islands,
         n_iters_without_improvement,
