@@ -1,10 +1,11 @@
 import cProfile
 import pstats
 import time
+import sys
 
 from deap import tools
 
-from AlgorithmBackboneInPlace import Nsga2Algorithm
+import AlgorithmBackboneInPlace
 from EvolutionaryBackbone import EvolutionaryBackbone
 import HallOfFame
 import Logs
@@ -16,59 +17,89 @@ import Statistics
 from experiments import Experiment
 from utils import load_config, save_results, defer
 
+
+def resolve_config_entry(module, config_entry):
+    return defer(getattr(module, config_entry["name"]), config_entry["args"])
+
+
+def make_one_experiment(config, name, iter_number, number_of_criteria):
+    standard_data = ["algorithm_args", "toolbox"]
+    prefix = "main_alg_args_"
+
+    experiment_data = config["experiments"][number_of_criteria]
+    experiment_args = config["experiments_params"][name]["experiment_args"]
+    algorithm_args = experiment_data["algorithm_args"]
+
+    keys = [key for key in experiment_data.keys() if key not in standard_data]
+
+    # keys = ["main_alg_args_standard", ]
+
+    toolbox_name = name
+    for key in keys:
+        main_alg_args = experiment_data[key]
+
+        experiment_name = name + "_" + key[key.find(prefix) + len(prefix):]
+
+        experiment = Experiment(toolbox_name, **experiment_args)
+        toolbox = experiment.toolbox
+
+        alg = getattr(AlgorithmBackboneInPlace, algorithm_args["name"])(
+            toolbox,
+            **algorithm_args["args"]
+        )
+
+        evolutionary_backbone = EvolutionaryBackbone(
+            resolve_config_entry(Populations, main_alg_args["create_population"]),
+            alg.run,
+            resolve_config_entry(Migration, main_alg_args["migrate"]),
+            resolve_config_entry(ShouldRun, main_alg_args["should_run"]),
+            resolve_config_entry(Results, main_alg_args["get_results"]),
+            resolve_config_entry(HallOfFame, main_alg_args["prepare_hall_of_fame"]),
+            resolve_config_entry(Logs, main_alg_args["prepare_logbook"]),
+            resolve_config_entry(HallOfFame, main_alg_args["update_hall_of_fame"]),
+            resolve_config_entry(Statistics, main_alg_args["print_statistics"]),
+            toolbox
+        )
+
+        start_time = time.time()
+
+        with cProfile.Profile() as pr:
+            hall_of_fame, logs, other_data = evolutionary_backbone.run()
+
+        final_time = time.time() - start_time
+
+        stats = pstats.Stats(pr)
+        stats.sort_stats(pstats.SortKey.TIME)
+        # stats.print_stats()
+
+        print(experiment_name, hall_of_fame[0].fitness, hall_of_fame)
+        save_results(experiment_name, experiment_name, iter_number, hall_of_fame, logs, other_data, final_time,
+                     experiment_data)
+
+
+def main(config, iter_number, number_of_criteria):
+    names = config["experiments"][number_of_criteria]["toolbox"]
+
+    for name in names:
+        print("Current:", iter_number, name)
+        make_one_experiment(config, name, iter_number, number_of_criteria)
+
+
 if __name__ == "__main__":
 
-    config = load_config("experiment_conf.json")
+    cfg = load_config("complex_config.json")
 
-    experiment_name = "dtlz1"
-    experiment_data = config["experiments"][experiment_name]
-    experiment_args = experiment_data["experiment_args"]
-    nsga2_args = experiment_data["nsga2_args"]
-    main_alg_args = experiment_data["main_alg_args"]
+    all_names = cfg["experiments"].keys()
+    number_of_tests = 5
+    if len(sys.argv) == 3:
+        start = int(sys.argv[1])
+        stop = int(sys.argv[2])
+    else:
+        start = 0
+        stop = 1
 
-    experiment = Experiment(experiment_name, **experiment_args)
-    toolbox = experiment.toolbox
+    # number_of_criteria = "one_criteria"
+    number_of_criteria = "multi_criteria"
 
-    alg = Nsga2Algorithm(
-        toolbox,
-        **nsga2_args
-    )
-
-    create_population = main_alg_args["create_population"]
-    migrate = main_alg_args["migrate"]
-    should_run = main_alg_args["should_run"]
-    get_results = main_alg_args["get_results"]
-    prepare_hall_of_fame = main_alg_args["prepare_hall_of_fame"]
-    prepare_logbook = main_alg_args["prepare_logbook"]
-    update_hall_of_fame = main_alg_args["update_hall_of_fame"]
-    update_logs = main_alg_args["update_logs"]
-    print_statistics = main_alg_args["print_statistics"]
-
-    print(Migration)
-
-    evolutionary_backbone = EvolutionaryBackbone(
-        defer(getattr(Populations, create_population["name"]), create_population["args"]),
-        alg.run,
-        defer(getattr(Migration, migrate["name"]), migrate["args"]),
-        defer(getattr(ShouldRun, should_run["name"]), should_run["args"]),
-        defer(getattr(Results, get_results["name"]), get_results["args"]),
-        defer(getattr(HallOfFame, prepare_hall_of_fame["name"]), prepare_hall_of_fame["args"]),
-        defer(getattr(Logs, prepare_logbook["name"]), prepare_logbook["args"]),
-        defer(getattr(HallOfFame, update_hall_of_fame["name"]), update_hall_of_fame["args"]),
-        defer(getattr(Logs, update_logs["name"]), update_logs["args"]),
-        defer(getattr(Statistics, print_statistics["name"]), print_statistics["args"]),
-        toolbox
-    )
-
-    start_time = time.time()
-
-    with cProfile.Profile() as pr:
-        hall_of_fame, logs = evolutionary_backbone.run()
-
-    final_time = time.time() - start_time
-
-    stats = pstats.Stats(pr)
-    stats.sort_stats(pstats.SortKey.TIME)
-    # stats.print_stats()
-
-    save_results(experiment_name, hall_of_fame, logs, final_time, experiment_data)
+    for i in range(start, stop):
+        main(cfg, i, number_of_criteria)

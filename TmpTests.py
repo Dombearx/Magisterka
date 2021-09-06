@@ -1,57 +1,49 @@
-import random
-
-from deap import base
-
-from Migration import sort_by_fitness
-from Populations import create_simple_population
-from experiments import Experiment
-
-from framsticks.new_frams.FramsticksLib import FramsticksLib
-counter = 0
-def test_func():
-    global counter
-    counter += 1
-
-    print(counter)
-
-
+from utils import load_config, save_results, defer
 
 if __name__ == "__main__":
+    config = load_config("complex_config.json")
 
-    test_func()
+    names = config["experiments"]["one_criteria"]["toolbox"]
 
-    test_func()
-    test_func()
-    test_func()
+    standard_data = ["algorithm_args", "toolbox"]
 
-    # Not working: C(LLRX[|, p:0.25, r:1][|]X[|, p:0.1], )
+    for name in names:
+        experiment_data = config["experiments"]["one_criteria"]
+        experiment_args = config["experiments_params"][name]["experiment_args"]
+        algorithm_args = experiment_data["algorithm_args"]
 
-    # genotype_list = ['C(LLRX[|, p:0.25, r:1][|]X[|, p:0.1], )']
+        keys = [key for key in experiment_data.keys() if key not in standard_data]
 
-    # genotype_list = ['C(LLRX[|, p:0.25, r:1][|]X[|, p:0.1], )']
-    #
-    # frams_path = r'H:\Polibuda\Magisterka\Magisterka\framsticks\Framsticks50rc19'
-    # optimization_criteria = ['vertpos', 'velocity']
-    #
-    # cli = FramsticksLib(frams_path, None, None)
-    #
-    # results = cli.evaluate(genotype_list)
-    #
-    # print(results)
-    # experiment = Experiment("dtlz1", 3)
-    # toolbox = experiment.toolbox
-    #
-    # pop = create_simple_population(toolbox, 5)
-    #
-    # invalid_ind = [ind for ind in pop if not ind.fitness.valid]
-    # fitness_results = toolbox.map(toolbox.evaluate, invalid_ind)
-    # for ind, fit in zip(invalid_ind, fitness_results):
-    #     ind.fitness.values = fit
-    #
-    # for ind in pop:
-    #     print(ind.fitness)
-    #
-    # pop = sort_by_fitness(pop)
-    # print("---")
-    # for ind in pop:
-    #     print(ind.fitness)
+        toolbox_name = name
+        for key in keys:
+            main_alg_args = experiment_data[key]
+            prefix = "main_alg_args_"
+            experiment_name = name + "_" + key[key.find(prefix) + len(prefix):]
+
+            print(experiment_args)
+            print(algorithm_args)
+            print(main_alg_args)
+            print(experiment_name)
+            print(toolbox_name)
+            x = input()
+            #
+            # experiment = Experiment(toolbox_name, **experiment_args)
+            # toolbox = experiment.toolbox
+            #
+            # alg = getattr(AlgorithmBackboneInPlace, algorithm_args["name"])(
+            #     toolbox,
+            #     **algorithm_args["args"]
+            # )
+            #
+            # evolutionary_backbone = EvolutionaryBackbone(
+            #     resolve_config_entry(Populations, main_alg_args["create_population"]),
+            #     alg.run,
+            #     resolve_config_entry(Migration, main_alg_args["migrate"]),
+            #     resolve_config_entry(ShouldRun, main_alg_args["should_run"]),
+            #     resolve_config_entry(Results, main_alg_args["get_results"]),
+            #     resolve_config_entry(HallOfFame, main_alg_args["prepare_hall_of_fame"]),
+            #     resolve_config_entry(Logs, main_alg_args["prepare_logbook"]),
+            #     resolve_config_entry(HallOfFame, main_alg_args["update_hall_of_fame"]),
+            #     resolve_config_entry(Statistics, main_alg_args["print_statistics"]),
+            #     toolbox
+            # )

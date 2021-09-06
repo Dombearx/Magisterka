@@ -16,7 +16,8 @@ def gaussian_mutation(individual, mu, sigma, index, upper_bound, lower_bound):
     val = individual[index]
     val += random.gauss(mu, sigma)
     val = max(min(val, upper_bound), lower_bound)
-    return val
+    individual[index] = val
+    return individual
 
 
 def random_mut_gaussian(ind, mu, sigma, upper_bound, lower_bound):
@@ -31,19 +32,22 @@ def cx_uniform_one_child(ind1, ind2, indpb):
     return i1
 
 
-# Wielokryterialne do NSGA2
-
 BENCHMARKS = {
     "dtlz1": benchmarks.dtlz1,
     "dtlz2": benchmarks.dtlz2,
     "dtlz3": benchmarks.dtlz3,
     "dtlz4": benchmarks.dtlz4,
+    "h1": benchmarks.h1,
+    "ackley": benchmarks.ackley,
+    "himmelblau": benchmarks.himmelblau,
+    "schwefel": benchmarks.schwefel,
+    "rastrigin": benchmarks.rastrigin
 }
 
 
 def get_frams_nsga2_toolbox(experiment_name, frams_path, optimization_criteria):
-    creator.create("FitnessMax", base.Fitness, weights=[1.0] * len(optimization_criteria))
-    creator.create("Individual", list, fitness=creator.FitnessMax)
+    creator.create("Fitness", base.Fitness, weights=[1.0] * len(optimization_criteria))
+    creator.create("Individual", list, fitness=creator.Fitness)
 
     attributes = 1
 
@@ -72,13 +76,15 @@ def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, u
     else:
         weights_tuple = (1,) * objectives
 
-    creator.create("FitnessMin", base.Fitness, weights=weights_tuple)
+    creator.create("Fitness", base.Fitness, weights=weights_tuple)
     creator.create("ParetoFrontNumber", int)
-    creator.create("Individual", list, fitness=creator.FitnessMin, front_number=creator.ParetoFrontNumber)
+    creator.create("Individual", list, fitness=creator.Fitness, front_number=creator.ParetoFrontNumber)
 
     attributes = objectives  # objectives + k - 1 ????????????
 
     toolbox = base.Toolbox()
+
+    toolbox.register("direction", str, direction=direction)
 
     toolbox.register("attr_float", random.uniform, lower_bound, upper_bound)
     toolbox.register("individual", tools.initRepeat, creator.Individual,
@@ -91,9 +97,44 @@ def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, u
     toolbox.register("evaluate", eval_benchmark)
     toolbox.register("mate", cx_uniform_one_child, indpb=0.5)
     toolbox.register("mutate", random_mut_gaussian, mu=0,
-                     sigma=(upper_bound - lower_bound) / 10, upper_bound=upper_bound, lower_bound=lower_bound)
+                     sigma=(upper_bound - lower_bound) / 100, upper_bound=upper_bound, lower_bound=lower_bound)
 
     toolbox.register("select", tools.selNSGA2)
+
+    toolbox.register("map", map)
+
+    return toolbox
+
+
+def get_one_criteria_toolbox(benchmark_name, direction: str, attributes, lower_bound, upper_bound, *args):
+    if direction == "min":
+        weights_tuple = (-1.0,)
+    else:
+        weights_tuple = (1.0,)
+
+    creator.create("Fitness", base.Fitness, weights=weights_tuple)
+    creator.create("Individual", list, fitness=creator.Fitness)
+
+    def eval_benchmark(individual):
+        return BENCHMARKS[benchmark_name](individual, *args)
+
+    toolbox = base.Toolbox()
+
+    toolbox.register("direction", str, direction=direction)
+    toolbox.register("attr_float", random.uniform, lower_bound, upper_bound)
+    toolbox.register("individual", tools.initRepeat, creator.Individual,
+                     toolbox.attr_float, attributes)
+    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+
+    toolbox.register("evaluate", eval_benchmark)
+    toolbox.register("mate", cx_uniform_one_child, indpb=0.5)
+    toolbox.register("mutate", random_mut_gaussian, mu=0,
+                     sigma=(upper_bound - lower_bound) / 100, upper_bound=upper_bound, lower_bound=lower_bound)
+
+    # toolbox.register("mutate", random_mut_gaussian, mu=0,
+    #                  sigma=0.2, upper_bound=upper_bound, lower_bound=lower_bound)
+
+    toolbox.register("select", tools.selTournament, tournsize=3)
 
     toolbox.register("map", map)
 

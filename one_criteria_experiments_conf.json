@@ -1,0 +1,1041 @@
+{
+    "experiments": {
+        "h1_convection_selection": {
+            "name": "h1_convection_selection",
+            "toolbox": "h1",
+            "experiment_args": {
+                "direction": "max",
+                "attributes": 2,
+                "lower_bound": -100,
+                "upper_bound": 100
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_const_islands_one_criteria",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "h1_islands": {
+            "name": "h1_islands",
+            "toolbox": "h1",
+            "experiment_args": {
+                "direction": "max",
+                "attributes": 2,
+                "lower_bound": -100,
+                "upper_bound": 100
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "h1_standard": {
+            "name": "h1_standard",
+            "toolbox": "h1",
+            "experiment_args": {
+                "direction": "max",
+                "attributes": 2,
+                "lower_bound": -100,
+                "upper_bound": 100
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_simple_population",
+                    "args": {
+                        "num_of_individuals": 150
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+
+
+        "schwefel_convection_selection": {
+            "name": "schwefel_convection_selection",
+            "toolbox": "schwefel",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 10,
+                "lower_bound": -500,
+                "upper_bound": 500
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_const_islands_one_criteria",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "schwefel_islands": {
+            "name": "schwefel_islands",
+            "toolbox": "schwefel",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 10,
+                "lower_bound": -500,
+                "upper_bound": 500
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "schwefel_standard": {
+            "name": "schwefel_standard",
+            "toolbox": "schwefel",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 10,
+                "lower_bound": -500,
+                "upper_bound": 500
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_simple_population",
+                    "args": {
+                        "num_of_individuals": 150
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+
+
+        "himmelblau_convection_selection": {
+            "name": "himmelblau_convection_selection",
+            "toolbox": "himmelblau",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 2,
+                "lower_bound": -6,
+                "upper_bound": 6
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_const_islands_one_criteria",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "himmelblau_islands": {
+            "name": "himmelblau_islands",
+            "toolbox": "himmelblau",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 2,
+                "lower_bound": -6,
+                "upper_bound": 6
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "himmelblau_standard": {
+            "name": "himmelblau_standard",
+            "toolbox": "himmelblau",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 2,
+                "lower_bound": -6,
+                "upper_bound": 6
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_simple_population",
+                    "args": {
+                        "num_of_individuals": 150
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+
+
+        "rastrigin_convection_selection": {
+            "name": "rastrigin_convection_selection",
+            "toolbox": "rastrigin",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 10,
+                "lower_bound": -5.12,
+                "upper_bound": 5.12
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_const_islands_one_criteria",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "rastrigin_islands": {
+            "name": "rastrigin_islands",
+            "toolbox": "rastrigin",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 10,
+                "lower_bound": -5.12,
+                "upper_bound": 5.12
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "rastrigin_standard": {
+            "name": "rastrigin_standard",
+            "toolbox": "rastrigin",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 10,
+                "lower_bound": -5.12,
+                "upper_bound": 5.12
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_simple_population",
+                    "args": {
+                        "num_of_individuals": 150
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+
+        "ackley_convection_selection": {
+            "name": "ackley_convection_selection",
+            "toolbox": "ackley",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 10,
+                "lower_bound": -15,
+                "upper_bound": 30
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_const_islands_one_criteria",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "ackley_islands": {
+            "name": "ackley_islands",
+            "toolbox": "ackley",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 10,
+                "lower_bound": -15,
+                "upper_bound": 30
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        },
+        "ackley_standard": {
+            "name": "ackley_standard",
+            "toolbox": "ackley",
+            "experiment_args": {
+                "direction": "min",
+                "attributes": 10,
+                "lower_bound": -15,
+                "upper_bound": 30
+            },
+            "algorithm_args": {
+                "name": "SimpleOneCriteriaAlgorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 500
+                }
+            },
+            "main_alg_args":  {
+                "create_population": {
+                    "name": "create_simple_population",
+                    "args": {
+                        "num_of_individuals": 150
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 50
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_hall_of_fame",
+                    "args": {
+                        "size": 10
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "dont_print_statistics",
+                    "args": {
+
+                    }
+                }
+            }
+        }
+    }
+}

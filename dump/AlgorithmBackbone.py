@@ -3,7 +3,6 @@ from typing import Callable
 
 from deap import base, tools
 
-
 class BasicAlgorithm:
 
     def __init__(self):
