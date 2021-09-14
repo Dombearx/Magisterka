@@ -36,6 +36,7 @@ def make_one_experiment(config, name, iter_number, number_of_criteria):
 
     toolbox_name = name
     for key in keys:
+        print("current:", key)
         main_alg_args = experiment_data[key]
 
         experiment_name = name + "_" + key[key.find(prefix) + len(prefix):]
@@ -58,7 +59,10 @@ def make_one_experiment(config, name, iter_number, number_of_criteria):
             resolve_config_entry(Logs, main_alg_args["prepare_logbook"]),
             resolve_config_entry(HallOfFame, main_alg_args["update_hall_of_fame"]),
             resolve_config_entry(Statistics, main_alg_args["print_statistics"]),
-            toolbox
+            toolbox,
+            iter_number,
+            experiment_name,
+            experiment_data
         )
 
         start_time = time.time()
@@ -77,12 +81,11 @@ def make_one_experiment(config, name, iter_number, number_of_criteria):
                      experiment_data)
 
 
-def main(config, iter_number, number_of_criteria):
+def main(config, iter_number, number_of_criteria, name):
     names = config["experiments"][number_of_criteria]["toolbox"]
 
-    for name in names:
-        print("Current:", iter_number, name)
-        make_one_experiment(config, name, iter_number, number_of_criteria)
+    print("Current:", iter_number, name)
+    make_one_experiment(config, name, iter_number, number_of_criteria)
 
 
 if __name__ == "__main__":
@@ -90,16 +93,18 @@ if __name__ == "__main__":
     cfg = load_config("complex_config.json")
 
     all_names = cfg["experiments"].keys()
-    number_of_tests = 5
-    if len(sys.argv) == 3:
+    number_of_tests = 6
+    if len(sys.argv) == 4:
         start = int(sys.argv[1])
         stop = int(sys.argv[2])
+        name = sys.argv[2]
     else:
         start = 0
         stop = 1
+        name = "kursawe"
 
     # number_of_criteria = "one_criteria"
     number_of_criteria = "multi_criteria"
 
     for i in range(start, stop):
-        main(cfg, i, number_of_criteria)
+        main(cfg, i, number_of_criteria, name)

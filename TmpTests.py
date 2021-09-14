@@ -1,4 +1,6 @@
 from utils import load_config, save_results, defer
+from experiments import Experiment
+from benchmarks_conf import random_mut_all_gaussian
 
 if __name__ == "__main__":
     config = load_config("complex_config.json")
@@ -15,7 +17,7 @@ if __name__ == "__main__":
         keys = [key for key in experiment_data.keys() if key not in standard_data]
 
         toolbox_name = name
-        for key in keys:
+        for key in keys[:1]:
             main_alg_args = experiment_data[key]
             prefix = "main_alg_args_"
             experiment_name = name + "_" + key[key.find(prefix) + len(prefix):]
@@ -25,10 +27,19 @@ if __name__ == "__main__":
             print(main_alg_args)
             print(experiment_name)
             print(toolbox_name)
-            x = input()
             #
-            # experiment = Experiment(toolbox_name, **experiment_args)
-            # toolbox = experiment.toolbox
+            experiment = Experiment(toolbox_name, **experiment_args)
+            toolbox = experiment.toolbox
+
+            pop = toolbox.population(n=1)
+
+            print(pop)
+
+            for ind in pop:
+                ind = toolbox.mutate(ind)
+
+            print(pop)
+
             #
             # alg = getattr(AlgorithmBackboneInPlace, algorithm_args["name"])(
             #     toolbox,

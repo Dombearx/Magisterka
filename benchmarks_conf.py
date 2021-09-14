@@ -1,6 +1,7 @@
 #  benchmarks
 from deap import creator, base, tools, benchmarks
 import random
+import math
 
 try:
     from collections.abc import Sequence
@@ -26,6 +27,17 @@ def random_mut_gaussian(ind, mu, sigma, upper_bound, lower_bound):
     return gaussian_mutation(ind, mu=mu, sigma=sigma, index=index, upper_bound=upper_bound, lower_bound=lower_bound)
 
 
+def random_mut_all_gaussian(ind, attributes, mu, sigma, upper_bound, lower_bound):
+    sigma = sigma / math.sqrt(attributes)
+    for index in range(len(ind)):
+        val = ind[index]
+        val += random.gauss(mu, sigma)
+        val = max(min(val, upper_bound), lower_bound)
+        ind[index] = val
+
+    return ind
+
+
 def cx_uniform_one_child(ind1, ind2, indpb):
     i1, i2 = tools.cxUniform(ind1, ind2, indpb)
 
@@ -37,6 +49,9 @@ BENCHMARKS = {
     "dtlz2": benchmarks.dtlz2,
     "dtlz3": benchmarks.dtlz3,
     "dtlz4": benchmarks.dtlz4,
+    "kursawe": benchmarks.kursawe,
+    "zdt3": benchmarks.zdt3,
+    "zdt6": benchmarks.zdt6,
     "h1": benchmarks.h1,
     "ackley": benchmarks.ackley,
     "himmelblau": benchmarks.himmelblau,
@@ -72,9 +87,9 @@ def get_frams_nsga2_toolbox(experiment_name, frams_path, optimization_criteria):
 # TODO Inside crossover probability is hardcoded
 def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, upper_bound, *args):
     if direction == "min":
-        weights_tuple = (-1,) * objectives
+        weights_tuple = (-1,) * 2
     else:
-        weights_tuple = (1,) * objectives
+        weights_tuple = (1,) * 2
 
     creator.create("Fitness", base.Fitness, weights=weights_tuple)
     creator.create("ParetoFrontNumber", int)
@@ -92,11 +107,11 @@ def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, u
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     def eval_benchmark(individual):
-        return BENCHMARKS[benchmark_name](individual, objectives, *args)
+        return BENCHMARKS[benchmark_name](individual, *args)
 
     toolbox.register("evaluate", eval_benchmark)
     toolbox.register("mate", cx_uniform_one_child, indpb=0.5)
-    toolbox.register("mutate", random_mut_gaussian, mu=0,
+    toolbox.register("mutate", random_mut_all_gaussian, attributes=attributes, mu=0,
                      sigma=(upper_bound - lower_bound) / 100, upper_bound=upper_bound, lower_bound=lower_bound)
 
     toolbox.register("select", tools.selNSGA2)
@@ -128,7 +143,7 @@ def get_one_criteria_toolbox(benchmark_name, direction: str, attributes, lower_b
 
     toolbox.register("evaluate", eval_benchmark)
     toolbox.register("mate", cx_uniform_one_child, indpb=0.5)
-    toolbox.register("mutate", random_mut_gaussian, mu=0,
+    toolbox.register("mutate", random_mut_all_gaussian, attributes=attributes, mu=0,
                      sigma=(upper_bound - lower_bound) / 100, upper_bound=upper_bound, lower_bound=lower_bound)
 
     # toolbox.register("mutate", random_mut_gaussian, mu=0,

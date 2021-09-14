@@ -76,6 +76,81 @@ def migrate_const_islands(population: list, direction, number_of_islands: int) -
     return new_islands
 
 
+def migrate_const_islands_overleap(population: list, direction, number_of_islands: int) -> list:
+    whole_population = [ind for island in population for ind in island]
+    assignCrowdingDist(whole_population)
+
+    max_size = 150
+
+    pareto_fronts = tools.sortNondominated(whole_population, len(whole_population))
+
+    fronts = []
+
+    for front in pareto_fronts:
+        fronts.append(sorted(front, key=lambda x: x.fitness.crowding_dist, reverse=True))
+
+    pareto_fronts = fronts
+
+    if len(pareto_fronts) > 1:
+        better_fronts_size = sum([len(front) for front in pareto_fronts[:-1]])
+    else:
+        better_fronts_size = 0
+
+    pareto_fronts[-1] = pareto_fronts[-1][:max_size - better_fronts_size]
+
+    assert(sum([len(front) for front in pareto_fronts]) == max_size)
+
+    #OVERLEAP
+
+    whole_population = [ind for island in pareto_fronts for ind in island]
+    island_size = int(len(whole_population) / number_of_islands)
+
+    new_islands = []
+    for i in range(0, len(whole_population), island_size):
+        new_islands.append(whole_population[i:i + island_size])
+
+    last_index = len(whole_population) - (len(whole_population) % island_size)
+
+    # Add extra individuals to the last island
+    if last_index < len(whole_population):
+        new_islands[-1] += whole_population[last_index + 1:]
+
+    return new_islands
+
+
+def migrate_const_islands_different_sizes(population: list, direction, number_of_islands: int) -> list:
+    whole_population = [ind for island in population for ind in island]
+    assignCrowdingDist(whole_population)
+
+    pareto_fronts = tools.sortNondominated(whole_population, len(whole_population))
+
+    fronts = []
+
+    for front in pareto_fronts:
+        fronts.append(sorted(front, key=lambda x: x.fitness.crowding_dist, reverse=True))
+
+    pareto_fronts = fronts
+
+    whole_population = [ind for island in pareto_fronts for ind in island]
+    basic_island_size = int(len(whole_population) / number_of_islands)
+
+    new_islands = []
+    sizes = [50, 40, 30, 20, 10]
+    assert (sum(sizes) == len(whole_population))
+    index = 0
+    for size in sizes:
+        new_islands.append(whole_population[index:index + size])
+        index += size
+
+    # last_index = len(whole_population) - (len(whole_population) % island_size)
+    #
+    # # Add extra individuals to the last island
+    # if last_index < len(whole_population):
+    #     new_islands[-1] += whole_population[last_index + 1:]
+
+    return new_islands
+
+
 # Migracja między wyspami w selekcji konwekcyjnej dla problemów WIELOKRYTERIALNYCH
 
 # TODO Check if it is correct

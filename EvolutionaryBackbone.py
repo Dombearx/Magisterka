@@ -6,6 +6,7 @@ import time
 
 from deap import base, tools
 from HallOfFame import BasicParetoFront
+from utils import save_results
 
 
 class EvolutionaryBackbone:
@@ -23,6 +24,9 @@ class EvolutionaryBackbone:
                  update_hall_of_fame: Callable[[base.Toolbox, list, BasicParetoFront], tuple[BasicParetoFront, int]],
                  print_statistics: Callable[[list, BasicParetoFront, int, ...], None],
                  toolbox: base.Toolbox,
+                 iter_number: int,
+                 experiment_name,
+                 experiment_data,
                  *args, **kwargs):
         self.toolbox = toolbox
 
@@ -40,6 +44,10 @@ class EvolutionaryBackbone:
         self.print_statistics = print_statistics
 
         self.migrate = migrate
+
+        self.iter_number = iter_number
+        self.experiment_name = experiment_name
+        self.experiment_data = experiment_data
 
     def run(self) -> tuple[BasicParetoFront, list, list]:
         should_run = True
@@ -67,6 +75,7 @@ class EvolutionaryBackbone:
         fig = []
         iters = 0
         direction = self.toolbox.direction.keywords['direction']
+        start_time = time.time()
         while should_run:
             other_data.append({"iteration_number": iteration_number, "number_of_islands": len(populations)})
 
@@ -85,7 +94,7 @@ class EvolutionaryBackbone:
             else:
                 iters += 1
 
-            print(f"{iters = } {iteration_number = } {hall_of_fame.get_best_individual_fitness()} {time.time() - t} {len(hall_of_fame.items)}")
+            print(f"{iters = } {iteration_number = } {hall_of_fame.get_best_individual_fitness()} {time.time() - t} {len(hall_of_fame.items)} {len(populations)}")
 
             # print(removed_individuals)
 
@@ -114,6 +123,10 @@ class EvolutionaryBackbone:
             # TEST
 
             iteration_number += 1
+
+            if iteration_number % 100 == 0:
+                save_results(self.experiment_name, self.experiment_name + "_snap_", self.iter_number, hall_of_fame, logs, other_data, time.time() - start_time,
+                             self.experiment_data)
 
             should_run = self.should_still_run(removed_individuals, iteration_number)
 

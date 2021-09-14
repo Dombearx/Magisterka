@@ -44,8 +44,8 @@ class SimpleOneCriteriaAlgorithm(BasicAlgorithm):
                 fit = [fit[0]['evaluations'][''][criteria] for criteria in self.optimization_criteria]
             ind.fitness.values = fit
 
-        record = stats.compile(population)
-        logbook.record(gen=0, number_of_evaluations=len(invalid_ind), **record)
+        # record = stats.compile(population)
+        # logbook.record(gen=0, number_of_evaluations=len(invalid_ind), **record)
 
         removed_individuals = 0
         for generation in range(1, self.number_of_generations + 1):
@@ -88,8 +88,8 @@ class SimpleOneCriteriaAlgorithm(BasicAlgorithm):
 
             population[:] = offspring
 
-            record = stats.compile(population)
-            logbook.record(gen=generation, number_of_evaluations=len(invalid_ind), **record)
+            # record = stats.compile(population)
+            # logbook.record(gen=generation, number_of_evaluations=len(invalid_ind), **record)
 
         # print((population, logbook), hall_of_fame, removed_individuals)
 
@@ -122,8 +122,8 @@ class Nsga2Algorithm(BasicAlgorithm):
                 fit = [fit[0]['evaluations'][''][criteria] for criteria in self.optimization_criteria]
             ind.fitness.values = fit
 
-        record = stats.compile(population)
-        logbook.record(gen=0, number_of_evaluations=len(invalid_ind), **record)
+        # record = stats.compile(population)
+        # logbook.record(gen=0, number_of_evaluations=len(invalid_ind), **record)
 
         # Assign pareto fronts
         fronts = tools.sortNondominated(population, len(population))
@@ -134,7 +134,7 @@ class Nsga2Algorithm(BasicAlgorithm):
         removed_individuals = 0
 
 
-        plt.draw()
+        # plt.draw()
         for generation in range(1, self.number_of_generations + 1):
 
             # Generate offspring:
@@ -206,7 +206,7 @@ class Nsga2Algorithm(BasicAlgorithm):
             removed_individuals_partial = update_hall_of_fame(self.toolbox, [population, ], hall_of_fame)
             removed_individuals += removed_individuals_partial
 
-            record = stats.compile(population)
-            logbook.record(gen=generation, number_of_evaluations=len(invalid_ind), **record)
+            # record = stats.compile(population)
+            # logbook.record(gen=generation, number_of_evaluations=len(invalid_ind), **record)
         # x = input()
         return population, logbook, removed_individuals
