@@ -7,7 +7,7 @@ def wrapper_get_simplest(cli: FramsticksLib, genetic_format: int) -> str:
     return genotype
 
 
-def wrapper_mutate(cli: FramsticksLib, genotype_list: list[str]) -> str:
+def wrapper_mutate(cli: FramsticksLib, genotype_list: list[str]):
     genotype = cli.mutate(genotype_list)
 
     return genotype[0]

@@ -2,6 +2,7 @@ import cProfile
 import pstats
 import time
 import sys
+import os
 
 from deap import tools
 
@@ -15,14 +16,14 @@ import ShouldRun
 import Results
 import Statistics
 from experiments import Experiment
-from utils import load_config, save_results, defer
+from utils import load_config, save_results, defer, deserialize_experiment
 
 
 def resolve_config_entry(module, config_entry):
     return defer(getattr(module, config_entry["name"]), config_entry["args"])
 
 
-def make_one_experiment(config, name, iter_number, number_of_criteria):
+def make_one_experiment(config, name, iter_number, number_of_criteria, id):
     standard_data = ["algorithm_args", "toolbox"]
     prefix = "main_alg_args_"
 
@@ -62,18 +63,21 @@ def make_one_experiment(config, name, iter_number, number_of_criteria):
             toolbox,
             iter_number,
             experiment_name,
-            experiment_data
+            experiment_data,
+            key,
+            id,
+            name
         )
 
         start_time = time.time()
 
-        with cProfile.Profile() as pr:
-            hall_of_fame, logs, other_data = evolutionary_backbone.run()
+        # with cProfile.Profile() as pr:
+        hall_of_fame, logs, other_data = evolutionary_backbone.run()
 
         final_time = time.time() - start_time
 
-        stats = pstats.Stats(pr)
-        stats.sort_stats(pstats.SortKey.TIME)
+        # stats = pstats.Stats(pr)
+        # stats.sort_stats(pstats.SortKey.TIME)
         # stats.print_stats()
 
         print(experiment_name, hall_of_fame[0].fitness, hall_of_fame)
@@ -81,16 +85,17 @@ def make_one_experiment(config, name, iter_number, number_of_criteria):
                      experiment_data)
 
 
-def main(config, iter_number, number_of_criteria, name):
+def main(config, iter_number, number_of_criteria, name2, id):
     names = config["experiments"][number_of_criteria]["toolbox"]
 
-    print("Current:", iter_number, name)
-    make_one_experiment(config, name, iter_number, number_of_criteria)
+    for name in names:
+        print("Current:", iter_number, name, id)
+        make_one_experiment(config, name, iter_number, number_of_criteria, id)
 
 
 if __name__ == "__main__":
 
-    cfg = load_config("complex_config.json")
+    cfg = load_config("frams_config.json")
 
     all_names = cfg["experiments"].keys()
     number_of_tests = 6
@@ -101,10 +106,14 @@ if __name__ == "__main__":
     else:
         start = 0
         stop = 1
-        name = "kursawe"
+        name = "h1"
 
     # number_of_criteria = "one_criteria"
     number_of_criteria = "multi_criteria"
 
+    id = 1237891237
+
+    folder_path = "./" + "pickles"
+
     for i in range(start, stop):
-        main(cfg, i, number_of_criteria, name)
+        main(cfg, i, number_of_criteria, name, id)

@@ -1,0 +1,230 @@
+{
+    "experiments": {
+        "multi_criteria": {
+            "toolbox": ["frams"],
+            "algorithm_args": {
+                "name": "Nsga2Algorithm",
+                "args": {
+                    "mutation_probability": 1,
+                    "crossover_probability": 0.5,
+                    "number_of_generations": 50,
+                    "optimization_criteria": ["vertpos", "velocity"]
+                }
+            },
+            "main_alg_args_convection_selection_const_islands":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_const_islands",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 10
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_NSGA2_hall_of_fame",
+                    "args": {
+                        "size": 1000
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "print_statistics_removed",
+                    "args": {
+
+                    }
+                }
+            },
+            "main_alg_args_convection_selection_front_islands":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_one_front_one_island",
+                    "args": {
+
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 10
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_NSGA2_hall_of_fame",
+                    "args": {
+                        "size": 1000
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "print_statistics_removed",
+                    "args": {
+
+                    }
+                }
+            },
+            "main_alg_args_islands":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 5,
+                        "num_of_individuals": 30
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 10
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_NSGA2_hall_of_fame",
+                    "args": {
+                        "size": 1000
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 5
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "print_statistics_removed",
+                    "args": {
+
+                    }
+                }
+            },
+            "main_alg_args_standard":  {
+                "create_population": {
+                    "name": "create_islands_population",
+                    "args": {
+                        "num_of_islands": 1,
+                        "num_of_individuals": 150
+                    }
+                },
+                "migrate": {
+                    "name": "migrate_random",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "should_run": {
+                    "name": "n_iters_without_improvement",
+                    "args": {
+                        "max_iters": 10
+                    }
+                },
+                "get_results": {
+                    "name": "clear_population",
+                    "args": {
+
+                    }
+                },
+                "prepare_hall_of_fame": {
+                    "name": "prepare_NSGA2_hall_of_fame",
+                    "args": {
+                        "size": 1000
+                    }
+                },
+                "prepare_logbook": {
+                    "name": "prepare_standard_logbook",
+                    "args": {
+                        "number_of_islands": 1
+                    }
+                },
+                "update_hall_of_fame": {
+                    "name": "update_hall_of_fame",
+                    "args": {
+
+                    }
+                },
+                "print_statistics": {
+                    "name": "print_statistics_removed",
+                    "args": {
+
+                    }
+                }
+            }
+        }
+    },
+    "experiments_params": {
+        "frams": {
+            "experiment_args": {
+                "direction": "max",
+                "frams_path": "./framsticks/Framsticks50rc19",
+                "optimization_criteria": ["vertpos", "velocity"],
+                "sim_file": "eval-multi.sim"
+            }
+        }
+    }
+}

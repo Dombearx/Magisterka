@@ -6,7 +6,7 @@ import time
 
 from deap import base, tools
 from HallOfFame import BasicParetoFront
-from utils import save_results
+from utils import save_results, serialize_experiment
 
 
 class EvolutionaryBackbone:
@@ -27,6 +27,9 @@ class EvolutionaryBackbone:
                  iter_number: int,
                  experiment_name,
                  experiment_data,
+                 key,
+                 id,
+                 name,
                  *args, **kwargs):
         self.toolbox = toolbox
 
@@ -48,6 +51,9 @@ class EvolutionaryBackbone:
         self.iter_number = iter_number
         self.experiment_name = experiment_name
         self.experiment_data = experiment_data
+        self.key = key
+        self.id = id
+        self.name = name
 
     def run(self) -> tuple[BasicParetoFront, list, list]:
         should_run = True
@@ -58,6 +64,7 @@ class EvolutionaryBackbone:
         logs, stats = self.prepare_logs(self.toolbox)
 
         iteration_number = 0
+        serialization_frequency = 5000
 
         other_data = []
         # TEST
@@ -81,12 +88,13 @@ class EvolutionaryBackbone:
 
             populations = self.migrate(populations, direction)
 
-            index = [0,1,2,3,4]
+            index = [0, 1, 2, 3, 4]
             # hall_of_fame updates inplace
             t = time.time()
             result = self.toolbox.map(
                 lambda population, log, i: self.run_algorithm(population, log, stats, hall_of_fame,
-                                                           self.update_hall_of_fame, dots, fig, i), populations, logs, index)
+                                                              self.update_hall_of_fame, dots, fig, i), populations,
+                logs, index)
 
             populations, logs, removed_individuals = self.clear_results(result)
             if removed_individuals > 0:
@@ -94,7 +102,8 @@ class EvolutionaryBackbone:
             else:
                 iters += 1
 
-            print(f"{iters = } {iteration_number = } {hall_of_fame.get_best_individual_fitness()} {time.time() - t} {len(hall_of_fame.items)} {len(populations)}")
+            print(
+                f"{iters = } {iteration_number = } {hall_of_fame.get_best_individual_fitness()} {time.time() - t} {len(hall_of_fame.items)} {len(populations)}")
 
             # print(removed_individuals)
 
@@ -125,9 +134,87 @@ class EvolutionaryBackbone:
             iteration_number += 1
 
             if iteration_number % 100 == 0:
-                save_results(self.experiment_name, self.experiment_name + "_snap_", self.iter_number, hall_of_fame, logs, other_data, time.time() - start_time,
+                save_results(self.experiment_name, self.experiment_name + "_snap_", self.iter_number, hall_of_fame,
+                             logs, other_data, time.time() - start_time,
                              self.experiment_data)
+
+            # if iteration_number % serialization_frequency == 0:
+            #     filename = "experiment_" + str(self.id)
+            #     serialize_experiment(filename, self.experiment_data, self.key, other_data, populations, logs,
+            #                          should_run, hall_of_fame, iteration_number, self.iter_number, self.name, iters)
 
             should_run = self.should_still_run(removed_individuals, iteration_number)
 
         return hall_of_fame, logs, other_data
+
+    def resolve_exp(self, exp):
+
+        experiment_data = exp.experiment_data
+        key = exp.key
+        other_data = exp.other_data
+        populations = exp.populations
+        logs = exp.logs
+        should_run = exp.should_run
+        hall_of_fame = exp.hall_of_fame
+        iteration_number = exp.iteration_number
+        iter_number = exp.iter_number
+        name = exp.name
+        iters = exp.iters
+
+        return experiment_data, key, other_data, populations, logs, should_run, hall_of_fame, iteration_number, iter_number, name, iters
+
+
+    def run_from_file(self, exp) -> tuple[BasicParetoFront, list, list]:
+
+        experiment_data, key, other_data, populations, logs, should_run, hall_of_fame, iteration_number, iter_number, name, iters = self.resolve_exp(exp)
+
+        _, stats = self.prepare_logs(self.toolbox)
+        self.iter_number = iter_number
+        serialization_frequency = 5
+
+        dots = []
+        fig = []
+        direction = self.toolbox.direction.keywords['direction']
+        start_time = time.time()
+        while should_run:
+            other_data.append({"iteration_number": iteration_number, "number_of_islands": len(populations)})
+
+            populations = self.migrate(populations, direction)
+
+            index = [0, 1, 2, 3, 4]
+            # hall_of_fame updates inplace
+            t = time.time()
+            result = self.toolbox.map(
+                lambda population, log, i: self.run_algorithm(population, log, stats, hall_of_fame,
+                                                              self.update_hall_of_fame, dots, fig, i), populations,
+                logs, index)
+
+            populations, logs, removed_individuals = self.clear_results(result)
+            if removed_individuals > 0:
+                iters = 0
+            else:
+                iters += 1
+
+            print(
+                f"{iters = } {iteration_number = } {hall_of_fame.get_best_individual_fitness()} {time.time() - t} {len(hall_of_fame.items)} {len(populations)}")
+
+            self.print_statistics(populations, hall_of_fame, iteration_number, logs, removed_individuals)
+
+            iteration_number += 1
+
+            if iteration_number % 100 == 0:
+                save_results(self.experiment_name, self.experiment_name + "_snap_", self.iter_number, hall_of_fame,
+                             logs, other_data, time.time() - start_time,
+                             self.experiment_data)
+
+            if iteration_number % serialization_frequency == 0:
+                filename = "experiment_" + str(self.id)
+                serialize_experiment(filename, self.experiment_data, self.key, other_data, populations, logs,
+                                     should_run, hall_of_fame, iteration_number, self.iter_number, name, iters)
+
+            should_run = self.should_still_run(removed_individuals, iteration_number)
+
+        return hall_of_fame, logs, other_data
+
+# TODO
+# Trzeba jeszcze zapisywać iters, bo inaczej wznawia tak jakby nie było progressu w ogóle. No i coś działa źle bo nei optymalizuje i przyszpiesza.

@@ -19,5 +19,5 @@ EXPERIMENTS = {
 
 class Experiment:
 
-    def __init__(self, experiment_name: str, **kargs):
-        self.toolbox = EXPERIMENTS[experiment_name](experiment_name, **kargs)
+    def __init__(self, experiment_name: str, **kwargs):
+        self.toolbox = EXPERIMENTS[experiment_name](experiment_name, **kwargs)

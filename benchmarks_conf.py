@@ -60,15 +60,18 @@ BENCHMARKS = {
 }
 
 
-def get_frams_nsga2_toolbox(experiment_name, frams_path, optimization_criteria):
+def get_frams_nsga2_toolbox(experiment_name, frams_path, optimization_criteria, direction, sim_file):
     creator.create("Fitness", base.Fitness, weights=[1.0] * len(optimization_criteria))
-    creator.create("Individual", list, fitness=creator.Fitness)
+    creator.create("ParetoFrontNumber", int)
+    creator.create("Individual", list, fitness=creator.Fitness, front_number=creator.ParetoFrontNumber)
 
     attributes = 1
 
-    cli = FramsticksLib(frams_path, None, None)
+    cli = FramsticksLib(frams_path, None, sim_file)
 
     toolbox = base.Toolbox()
+
+    toolbox.register("direction", str, direction=direction)
 
     toolbox.register("attr_frams", wrapper_get_simplest, cli, '1')
     toolbox.register("individual", tools.initRepeat, creator.Individual,
@@ -85,7 +88,7 @@ def get_frams_nsga2_toolbox(experiment_name, frams_path, optimization_criteria):
 
 
 # TODO Inside crossover probability is hardcoded
-def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, upper_bound, *args):
+def get_nsga2_toolbox(benchmark_name, direction: str, obj, lower_bound, upper_bound, **kwargs):
     if direction == "min":
         weights_tuple = (-1,) * 2
     else:
@@ -95,7 +98,7 @@ def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, u
     creator.create("ParetoFrontNumber", int)
     creator.create("Individual", list, fitness=creator.Fitness, front_number=creator.ParetoFrontNumber)
 
-    attributes = objectives  # objectives + k - 1 ????????????
+    attributes = obj  # objectives + k - 1 ????????????
 
     toolbox = base.Toolbox()
 
@@ -107,7 +110,7 @@ def get_nsga2_toolbox(benchmark_name, direction: str, objectives, lower_bound, u
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     def eval_benchmark(individual):
-        return BENCHMARKS[benchmark_name](individual, *args)
+        return BENCHMARKS[benchmark_name](individual, **kwargs)
 
     toolbox.register("evaluate", eval_benchmark)
     toolbox.register("mate", cx_uniform_one_child, indpb=0.5)

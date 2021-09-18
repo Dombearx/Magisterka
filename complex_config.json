@@ -1,13 +1,13 @@
 {
     "experiments": {
         "one_criteria": {
-            "toolbox": ["schwefel"],
+            "toolbox": ["ackley", "h1", "himmelblau", "schwefel", "rastrigin"],
             "algorithm_args": {
                 "name": "SimpleOneCriteriaAlgorithm",
                 "args": {
                     "mutation_probability": 1,
                     "crossover_probability": 0.5,
-                    "number_of_generations": 500
+                    "number_of_generations": 50
                 }
             },
             "main_alg_args_convection_selection":  {
@@ -27,7 +27,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 50
+                        "max_iters": 100
                     }
                 },
                 "get_results": {
@@ -78,7 +78,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 50
+                        "max_iters": 1
                     }
                 },
                 "get_results": {
@@ -128,7 +128,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 50
+                        "max_iters": 1
                     }
                 },
                 "get_results": {
@@ -383,7 +383,7 @@
         "kursawe": {
             "experiment_args": {
                     "direction": "min",
-                    "objectives": 3,
+                    "obj": 3,
                     "lower_bound": -5.0,
                     "upper_bound": 5.0
                 }
@@ -391,7 +391,7 @@
         "zdt3": {
             "experiment_args": {
                     "direction": "min",
-                    "objectives": 3,
+                    "obj": 3,
                     "lower_bound": 0.0,
                     "upper_bound": 1.0
                 }
@@ -399,7 +399,7 @@
         "zdt6": {
             "experiment_args": {
                     "direction": "min",
-                    "objectives": 3,
+                    "obj": 3,
                     "lower_bound": 0.0,
                     "upper_bound": 1.0
                 }
@@ -407,7 +407,7 @@
         "dtlz1": {
             "experiment_args": {
                     "direction": "min",
-                    "objectives": 3,
+                    "obj": 3,
                     "lower_bound": 0.0,
                     "upper_bound": 1.0
                 }
@@ -415,9 +415,18 @@
         "dtlz2": {
             "experiment_args": {
                     "direction": "min",
-                    "objectives": 3,
+                    "obj": 3,
                     "lower_bound": 0.0,
                     "upper_bound": 1.0
+                }
+        },
+        "dtlz4": {
+            "experiment_args": {
+                    "direction": "min",
+                    "obj": 3,
+                    "lower_bound": 0.0,
+                    "upper_bound": 1.0,
+                    "alpha": 100
                 }
         },
         "h1": {
