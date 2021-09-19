@@ -1,7 +1,6 @@
 from typing import Callable
 import pprint as pp
 import numpy as np
-import matplotlib.pyplot as plt
 import time
 
 from deap import base, tools
