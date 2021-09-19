@@ -139,16 +139,15 @@ def make_one_experiment(config, name, id, key, iter_number):
 if __name__ == "__main__":
 
     folder_path = "./" + "pickles"
-
-    name = "frams"
+    json_file = "frams_config.json"
 
     if len(sys.argv) == 4:
         iter_number = int(sys.argv[1])
-        json_file = sys.argv[2]
-        key = sys.argv[2]
+        name = sys.argv[2]
+        key = sys.argv[3]
     else:
         iter_number = 0
-        json_file = "frams_config.json"
+        name = "frams3"
         key = "main_alg_args_convection_selection_front_islands"
 
     cfg = load_config(json_file)

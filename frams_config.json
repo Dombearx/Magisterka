@@ -232,22 +232,22 @@
             "experiment_args": {
                 "direction": "max",
                 "frams_path": "./framsticks/Framsticks50rc19",
-                "optimization_criteria": ["vertpos", "numpart"],
+                "optimization_criteria": ["vertpos", "numparts"],
                 "sim_file": "eval-multi.sim"
             },
             "algorithm_args": {
-                "optimization_criteria": ["vertpos", "numpart"]
+                "optimization_criteria": ["vertpos", "numparts"]
             }
         },
         "frams3": {
             "experiment_args": {
                 "direction": "max",
                 "frams_path": "./framsticks/Framsticks50rc19",
-                "optimization_criteria": ["vertpos", "velocity", "numpart"],
+                "optimization_criteria": ["vertpos", "velocity", "numparts"],
                 "sim_file": "eval-multi.sim"
             },
             "algorithm_args": {
-                "optimization_criteria": ["vertpos", "velocity", "numpart"]
+                "optimization_criteria": ["vertpos", "velocity", "numparts"]
             }
         }
     }

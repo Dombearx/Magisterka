@@ -9,6 +9,8 @@ EXPERIMENTS = {
     "zdt3": get_nsga2_toolbox,
     "zdt6": get_nsga2_toolbox,
     "frams": get_frams_nsga2_toolbox,
+    "frams2": get_frams_nsga2_toolbox,
+    "frams3": get_frams_nsga2_toolbox,
     "h1": get_one_criteria_toolbox,
     "ackley": get_one_criteria_toolbox,
     "himmelblau": get_one_criteria_toolbox,
