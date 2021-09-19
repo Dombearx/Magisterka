@@ -7,8 +7,7 @@
                 "args": {
                     "mutation_probability": 1,
                     "crossover_probability": 0.5,
-                    "number_of_generations": 50,
-                    "optimization_criteria": ["vertpos", "velocity"]
+                    "number_of_generations": 50
                 }
             },
             "main_alg_args_convection_selection_const_islands":  {
@@ -224,6 +223,31 @@
                 "frams_path": "./framsticks/Framsticks50rc19",
                 "optimization_criteria": ["vertpos", "velocity"],
                 "sim_file": "eval-multi.sim"
+            },
+            "algorithm_args": {
+                "optimization_criteria": ["vertpos", "velocity"]
+            }
+        },
+        "frams2": {
+            "experiment_args": {
+                "direction": "max",
+                "frams_path": "./framsticks/Framsticks50rc19",
+                "optimization_criteria": ["vertpos", "numpart"],
+                "sim_file": "eval-multi.sim"
+            },
+            "algorithm_args": {
+                "optimization_criteria": ["vertpos", "numpart"]
+            }
+        },
+        "frams3": {
+            "experiment_args": {
+                "direction": "max",
+                "frams_path": "./framsticks/Framsticks50rc19",
+                "optimization_criteria": ["vertpos", "velocity", "numpart"],
+                "sim_file": "eval-multi.sim"
+            },
+            "algorithm_args": {
+                "optimization_criteria": ["vertpos", "velocity", "numpart"]
             }
         }
     }

@@ -26,9 +26,10 @@ def resume_one_experiment(config, name, id, key, iter_number, pickle_path):
     standard_data = ["algorithm_args", "toolbox"]
     prefix = "main_alg_args_"
 
-    experiment_data = config["experiments"]["one_criteria"]
+    experiment_data = config["experiments"]["multi_criteria"]
     experiment_args = config["experiments_params"][name]["experiment_args"]
     algorithm_args = experiment_data["algorithm_args"]
+    algorithm_args2 = config["experiments_params"][name]["algorithm_args"]
 
     toolbox_name = name
     main_alg_args = experiment_data[key]
@@ -42,7 +43,8 @@ def resume_one_experiment(config, name, id, key, iter_number, pickle_path):
 
     alg = getattr(AlgorithmBackboneInPlace, algorithm_args["name"])(
         toolbox,
-        **algorithm_args["args"]
+        **algorithm_args["args"],
+        **algorithm_args2
     )
 
     evolutionary_backbone = EvolutionaryBackbone(
@@ -66,12 +68,12 @@ def resume_one_experiment(config, name, id, key, iter_number, pickle_path):
 
     start_time = time.time()
 
-    hall_of_fame, logs, other_data = evolutionary_backbone.run_from_file(exp)
+    hall_of_fame, other_data = evolutionary_backbone.run_from_file(exp)
 
     final_time = time.time() - start_time
 
     print(experiment_name, hall_of_fame[0].fitness, hall_of_fame)
-    save_results(experiment_name, experiment_name, iter_number, hall_of_fame, logs, other_data, final_time,
+    save_results(experiment_name, experiment_name, iter_number, hall_of_fame, other_data, final_time,
                  experiment_data)
 
 def make_one_experiment(config, name, id, key, iter_number):
@@ -81,6 +83,7 @@ def make_one_experiment(config, name, id, key, iter_number):
     experiment_data = config["experiments"]["multi_criteria"]
     experiment_args = config["experiments_params"][name]["experiment_args"]
     algorithm_args = experiment_data["algorithm_args"]
+    algorithm_args2 = config["experiments_params"][name]["algorithm_args"]
 
     toolbox_name = name
 
@@ -94,7 +97,8 @@ def make_one_experiment(config, name, id, key, iter_number):
 
     alg = getattr(AlgorithmBackboneInPlace, algorithm_args["name"])(
         toolbox,
-        **algorithm_args["args"]
+        **algorithm_args["args"],
+        **algorithm_args2
     )
 
     evolutionary_backbone = EvolutionaryBackbone(
@@ -119,7 +123,7 @@ def make_one_experiment(config, name, id, key, iter_number):
     start_time = time.time()
 
     # with cProfile.Profile() as pr:
-    hall_of_fame, logs, other_data = evolutionary_backbone.run()
+    hall_of_fame, other_data = evolutionary_backbone.run()
 
     final_time = time.time() - start_time
 
@@ -128,23 +132,33 @@ def make_one_experiment(config, name, id, key, iter_number):
     # # stats.print_stats()
 
     print(experiment_name, hall_of_fame[0].fitness, hall_of_fame)
-    save_results(experiment_name, experiment_name, iter_number, hall_of_fame, logs, other_data, final_time,
+    save_results(experiment_name, experiment_name, iter_number, hall_of_fame, other_data, final_time,
                  experiment_data)
 
 
 if __name__ == "__main__":
 
-    cfg = load_config("frams_config.json")
-    id = 2323
-    iter_number = 0
-
     folder_path = "./" + "pickles"
 
     name = "frams"
-    # name = "ackley"
-    key = "main_alg_args_convection_selection_const_islands"
 
-    if os.path.exists(folder_path + "/" + "experiment_" + str(id) + ".pickle"):
-        resume_one_experiment(cfg, name, id, key, iter_number, "experiment_" + str(id))
+    if len(sys.argv) == 4:
+        iter_number = int(sys.argv[1])
+        json_file = sys.argv[2]
+        key = sys.argv[2]
     else:
-        make_one_experiment(cfg, name, id, key, iter_number)
+        iter_number = 0
+        json_file = "frams_config.json"
+        key = "main_alg_args_convection_selection_front_islands"
+
+    cfg = load_config(json_file)
+
+    id = str(iter_number) + "_" + json_file + "_" + key
+
+    if os.path.exists(folder_path + "/" + "experiment_" + str(id) + "_done.txt"):
+        print("EXPERIMENT ALREADY DONE")
+    else:
+        if os.path.exists(folder_path + "/" + "experiment_" + str(id) + ".pickle"):
+            resume_one_experiment(cfg, name, id, key, iter_number, "experiment_" + id)
+        else:
+            make_one_experiment(cfg, name, id, key, iter_number)

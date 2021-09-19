@@ -21,13 +21,13 @@ def defer(fn, args1):
 
 class Serialized_experiment:
 
-    def __init__(self, experiment_data, key, other_data, populations, logs, should_run, hall_of_fame,
+    def __init__(self, experiment_data, key, other_data, populations, should_run, hall_of_fame,
                  iteration_number, iter_number, name, iters):
         self.experiment_data = experiment_data
         self.key = key
         self.other_data = other_data
         self.populations = populations
-        self.logs = logs
+        # self.logs = logs
         self.should_run = should_run
         self.hall_of_fame = hall_of_fame
         self.iteration_number = iteration_number
@@ -36,12 +36,12 @@ class Serialized_experiment:
         self.iters = iters
 
 
-def serialize_experiment(filename, experiment_data, key, other_data, populations, logs, should_run, hall_of_fame,
+def serialize_experiment(filename, experiment_data, key, other_data, populations, should_run, hall_of_fame,
                          iteration_number, iter_number, name, iters):
-
     # stats = ""
 
-    exp = Serialized_experiment(experiment_data, key, other_data, populations, logs, should_run, hall_of_fame, iteration_number, iter_number, name, iters)
+    exp = Serialized_experiment(experiment_data, key, other_data, populations, should_run, hall_of_fame,
+                                iteration_number, iter_number, name, iters)
 
     folder_path = "./" + "pickles"
 
@@ -62,17 +62,24 @@ def deserialize_experiment(filename):
     return exp
 
 
+def create_done_file(filename):
+    folder_path = "./" + "pickles"
+
+    with(open(folder_path + "/" + filename + "_done.txt", "w")) as f:
+        f.write("DONE")
+
+
 class Result:
 
-    def __init__(self, logbooks, hall_of_fame, time, experiment_args, other_data):
-        self.logbooks = logbooks
+    def __init__(self, hall_of_fame, time, experiment_args, other_data):
+        # self.logbooks = logbooks
         self.hall_of_fame = hall_of_fame
         self.time = time
         self.experiment_args = experiment_args
         self.other_data = other_data
 
-    def get_logbooks(self):
-        return self.logbooks
+    # def get_logbooks(self):
+    #     return self.logbooks
 
     def get_hall_of_fame(self):
         return self.hall_of_fame
@@ -87,8 +94,7 @@ class Result:
         return self.other_data
 
 
-def save_results(category_name: str, experiment_name: str, iter_number: int, hall_of_fame: BasicParetoFront, logs: list,
-                 other_data: list, time: float,
+def save_results(category_name: str, experiment_name: str, iter_number: int, hall_of_fame: BasicParetoFront, other_data: list, time: float,
                  experiment_args: dict) -> None:
     time_text = datetime.now().strftime("%Y-%m-%d_%H-%M")
     print(time_text)
@@ -100,6 +106,6 @@ def save_results(category_name: str, experiment_name: str, iter_number: int, hal
 
     pickleOut = open(folder_path + "/" + experiment_name + "_" + str(iter_number) + "_" + time_text + ".pickle", "wb")
 
-    pickle.dump(Result(logs, hall_of_fame, time, experiment_args, other_data), pickleOut)
+    pickle.dump(Result(hall_of_fame, time, experiment_args, other_data), pickleOut)
 
     pickleOut.close()

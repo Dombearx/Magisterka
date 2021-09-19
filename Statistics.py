@@ -1,7 +1,7 @@
 from HallOfFame import BasicParetoFront
 
 
-def print_statistics(population: list, hall_of_fame: BasicParetoFront, iteration_number: int, logs: list) -> None:
+def print_statistics(population: list, hall_of_fame: BasicParetoFront, iteration_number: int) -> None:
     # for island in population:
     #     for ind in island:
     #         print(ind, f"{ind.fitness=}")
@@ -10,7 +10,7 @@ def print_statistics(population: list, hall_of_fame: BasicParetoFront, iteration
         print(ind, f"{ind.fitness=}")
 
 
-def print_statistics_removed(population: list, hall_of_fame: BasicParetoFront, iteration_number: int, logs: list,
+def print_statistics_removed(population: list, hall_of_fame: BasicParetoFront, iteration_number: int,
                              removed: int) -> None:
     # for island in population:
     #     for ind in island:
@@ -18,5 +18,5 @@ def print_statistics_removed(population: list, hall_of_fame: BasicParetoFront, i
     print(f"{removed} removed in {iteration_number} iteration:")
 
 
-def dont_print_statistics(population: list, hall_of_fame: BasicParetoFront, iteration_number: int, logs: list, removed: int) -> None:
+def dont_print_statistics(population: list, hall_of_fame: BasicParetoFront, iteration_number: int, removed: int) -> None:
     pass
