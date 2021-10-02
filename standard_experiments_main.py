@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
     folder_path = "./" + "pickles"
     done_folder_path = "./" + "dones"
-    json_file = "frams_config.json"
+    json_file = "multi_config.json"
 
     if len(sys.argv) == 4:
         iter_number = int(sys.argv[1])
@@ -148,7 +148,7 @@ if __name__ == "__main__":
         key = sys.argv[3]
     else:
         iter_number = 0
-        name = "frams3"
+        name = "dtlz1"
         key = "main_alg_args_convection_selection_front_islands"
 
     cfg = load_config(json_file)

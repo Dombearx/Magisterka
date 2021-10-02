@@ -3,6 +3,7 @@ import pprint as pp
 from typing import Callable
 
 import numpy as np
+import time
 
 from deap import base, tools
 from HallOfFame import BasicParetoFront
@@ -13,10 +14,9 @@ class BasicAlgorithm:
     def __init__(self):
         pass
 
-    def run(self, population: list, logbook: tools.Logbook, stats: tools.Statistics, hall_of_fame: BasicParetoFront,
+    def run(self, population: list, hall_of_fame: BasicParetoFront,
             update_hall_of_fame: Callable[[base.Toolbox, list, BasicParetoFront],
-                                          tuple[BasicParetoFront, int]]) -> [list, tools.Logbook, BasicParetoFront,
-                                                                             int]:
+                                          tuple[BasicParetoFront, int]]) -> [list, BasicParetoFront, int]:
         pass
 
 
@@ -32,11 +32,9 @@ class SimpleOneCriteriaAlgorithm(BasicAlgorithm):
         if 'optimization_criteria' in kwargs.keys():
             self.optimization_criteria = kwargs['optimization_criteria']
 
-    def run(self, population: list, logbook: tools.Logbook, stats: tools.Statistics, hall_of_fame: BasicParetoFront,
+    def run(self, population: list, hall_of_fame: BasicParetoFront,
             update_hall_of_fame: Callable[[base.Toolbox, list, BasicParetoFront],
-                                          tuple[BasicParetoFront, int]], dots, fig, island_number) -> [list,
-                                                                                                       tools.Logbook,
-                                                                                                       int]:
+                                          tuple[BasicParetoFront, int]]) -> [list, int]:
 
         # Evaluate the individuals with an invalid fitness
         invalid_ind = [ind for ind in population if not ind.fitness.valid]
@@ -96,7 +94,7 @@ class SimpleOneCriteriaAlgorithm(BasicAlgorithm):
 
         # print((population, logbook), hall_of_fame, removed_individuals)
 
-        return population, logbook, removed_individuals
+        return population, removed_individuals
 
 
 class Nsga2Algorithm(BasicAlgorithm):
@@ -131,6 +129,7 @@ class Nsga2Algorithm(BasicAlgorithm):
         removed_individuals = 0
 
         for generation in range(1, self.number_of_generations + 1):
+            t = time.time()
 
             # Assign pareto fronts
             fronts = tools.sortNondominated(population, len(population))
@@ -149,16 +148,17 @@ class Nsga2Algorithm(BasicAlgorithm):
 
                 if random.random() <= self.crossover_probability:
                     chosen_2 = tools.selTournament(population, k=1, tournsize=2, fit_attr="front_number")[0]
+                    new_ind_2 = self.toolbox.clone(chosen_2)
                     # TODO can be done better?
                     if hasattr(self, 'optimization_criteria'):
-                        new_ind[0] = self.toolbox.mate(chosen, chosen_2)
+                        new_ind[0] = self.toolbox.mate(new_ind, new_ind_2)
                     else:
-                        new_ind = self.toolbox.mate(chosen, chosen_2)
+                        new_ind = self.toolbox.mate(new_ind, new_ind_2)
                 elif random.random() <= self.mutation_probability:
                     if hasattr(self, 'optimization_criteria'):
-                        new_ind[0] = self.toolbox.mutate(chosen)
+                        new_ind[0] = self.toolbox.mutate(new_ind)
                     else:
-                        new_ind = self.toolbox.mutate(chosen)
+                        new_ind = self.toolbox.mutate(new_ind)
 
                 del new_ind.fitness.values
 
@@ -181,6 +181,7 @@ class Nsga2Algorithm(BasicAlgorithm):
 
             removed_individuals_partial = update_hall_of_fame(self.toolbox, [population, ], hall_of_fame)
             removed_individuals += removed_individuals_partial
+            # print(f"{generation = } {time.time() - t} {removed_individuals_partial = }")
 
             # record = stats.compile(population)
             # logbook.record(gen=generation, number_of_evaluations=len(invalid_ind), **record)

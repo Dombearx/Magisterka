@@ -72,7 +72,7 @@ def make_one_experiment(config, name, iter_number, number_of_criteria, id):
         start_time = time.time()
 
         # with cProfile.Profile() as pr:
-        hall_of_fame, logs, other_data = evolutionary_backbone.run()
+        hall_of_fame, other_data = evolutionary_backbone.run(verbose=True)
 
         final_time = time.time() - start_time
 
@@ -81,8 +81,7 @@ def make_one_experiment(config, name, iter_number, number_of_criteria, id):
         # stats.print_stats()
 
         print(experiment_name, hall_of_fame[0].fitness, hall_of_fame)
-        save_results(experiment_name, experiment_name, iter_number, hall_of_fame, logs, other_data, final_time,
-                     experiment_data)
+        save_results(experiment_name, experiment_name, iter_number, hall_of_fame, other_data, final_time, experiment_data)
 
 
 def main(config, iter_number, number_of_criteria, name2, id):
@@ -95,7 +94,7 @@ def main(config, iter_number, number_of_criteria, name2, id):
 
 if __name__ == "__main__":
 
-    cfg = load_config("frams_config.json")
+    cfg = load_config("multi_config.json")
 
     all_names = cfg["experiments"].keys()
     number_of_tests = 6

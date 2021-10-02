@@ -3,7 +3,8 @@ from HallOfFame import BasicParetoFront
 import pickle
 from datetime import datetime
 import os
-
+from deap import tools
+import numpy as np
 
 def load_config(filename: str) -> dict:
     with open(filename) as json_file:
@@ -18,6 +19,22 @@ def defer(fn, args1):
 
     return run
 
+def calculate_best_value(hall_of_fame):
+    if len(hall_of_fame[0].fitness.values) == 1:
+        # one criteria
+        best_value = hall_of_fame[0].fitness.values
+    else:
+        # multi criteria
+        all_points = []
+        for hofer in hall_of_fame:
+            all_points.append([i for i in hofer.fitness.values])
+
+        ref_point = np.array(all_points).max(axis=0)
+        ref_point = (-10, 30)
+
+        best_value = tools.hypervolume(hall_of_fame, ref=ref_point)
+
+    return best_value
 
 class Serialized_experiment:
 
@@ -63,7 +80,7 @@ def deserialize_experiment(filename):
 
 
 def create_done_file(filename):
-    folder_path = "./" + "pickles"
+    folder_path = "./" + "dones"
 
     with(open(folder_path + "/" + filename + "_done.txt", "w")) as f:
         f.write("DONE")

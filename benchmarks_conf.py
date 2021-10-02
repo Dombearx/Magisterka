@@ -88,17 +88,17 @@ def get_frams_nsga2_toolbox(experiment_name, frams_path, optimization_criteria, 
 
 
 # TODO Inside crossover probability is hardcoded
-def get_nsga2_toolbox(benchmark_name, direction: str, obj, lower_bound, upper_bound, **kwargs):
+def get_nsga2_toolbox(benchmark_name, direction: str, attr, obj, lower_bound, upper_bound, **kwargs):
     if direction == "min":
-        weights_tuple = (-1,) * 2
+        weights_tuple = (-1,) * obj
     else:
-        weights_tuple = (1,) * 2
+        weights_tuple = (1,) * obj
 
     creator.create("Fitness", base.Fitness, weights=weights_tuple)
     creator.create("ParetoFrontNumber", int)
     creator.create("Individual", list, fitness=creator.Fitness, front_number=creator.ParetoFrontNumber)
 
-    attributes = obj  # objectives + k - 1 ????????????
+    attributes = attr  # objectives + k - 1 ????????????
 
     toolbox = base.Toolbox()
 
@@ -109,8 +109,14 @@ def get_nsga2_toolbox(benchmark_name, direction: str, obj, lower_bound, upper_bo
                      toolbox.attr_float, attributes)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
-    def eval_benchmark(individual):
-        return BENCHMARKS[benchmark_name](individual, **kwargs)
+    names = ["dtlz1", "dtlz2", "dtlz4"]
+
+    if benchmark_name in names:
+        def eval_benchmark(individual):
+            return BENCHMARKS[benchmark_name](individual, obj, **kwargs)
+    else:
+        def eval_benchmark(individual):
+            return BENCHMARKS[benchmark_name](individual, **kwargs)
 
     toolbox.register("evaluate", eval_benchmark)
     toolbox.register("mate", cx_uniform_one_child, indpb=0.5)

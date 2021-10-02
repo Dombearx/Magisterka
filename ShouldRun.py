@@ -1,4 +1,4 @@
-def n_iters_run(removed_individuals: int, iter_num: int, max_iters: int) -> bool:
+def n_iters_run(removed_individuals: int, iter_num: int, iters, max_iters: int) -> bool:
     return iter_num < max_iters
 
 

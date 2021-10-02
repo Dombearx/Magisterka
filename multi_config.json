@@ -1,7 +1,7 @@
 {
     "experiments": {
         "multi_criteria": {
-            "toolbox": ["frams"],
+            "toolbox": ["kursawe", "zdt3", "zdt6"],
             "algorithm_args": {
                 "name": "Nsga2Algorithm",
                 "args": {
@@ -25,9 +25,9 @@
                     }
                 },
                 "should_run": {
-                    "name": "n_iters_without_improvement",
+                    "name": "n_iters_run",
                     "args": {
-                        "max_iters": 5
+                        "max_iters": 10
                     }
                 },
                 "get_results": {
@@ -78,7 +78,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 5
+                        "max_iters": 100
                     }
                 },
                 "get_results": {
@@ -129,7 +129,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 5
+                        "max_iters": 100
                     }
                 },
                 "get_results": {
@@ -180,7 +180,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 5
+                        "max_iters": 100
                     }
                 },
                 "get_results": {
@@ -217,37 +217,77 @@
         }
     },
     "experiments_params": {
-        "frams": {
+        "kursawe": {
             "experiment_args": {
-                "direction": "max",
-                "frams_path": "./framsticks/Framsticks50rc19",
-                "optimization_criteria": ["vertpos", "velocity"],
-                "sim_file": "eval-multi.sim"
-            },
+                    "direction": "min",
+                    "attr": 3,
+                    "obj": 2,
+                    "lower_bound": -5.0,
+                    "upper_bound": 5.0
+                },
             "algorithm_args": {
-                "optimization_criteria": ["vertpos", "velocity"]
+
             }
         },
-        "frams2": {
+        "zdt3": {
             "experiment_args": {
-                "direction": "max",
-                "frams_path": "./framsticks/Framsticks50rc19",
-                "optimization_criteria": ["vertpos", "numparts"],
-                "sim_file": "eval-multi.sim"
-            },
+                    "direction": "min",
+                    "attr": 3,
+                    "obj": 2,
+                    "lower_bound": 0.0,
+                    "upper_bound": 1.0
+                },
             "algorithm_args": {
-                "optimization_criteria": ["vertpos", "numparts"]
+
             }
         },
-        "frams3": {
+        "zdt6": {
             "experiment_args": {
-                "direction": "max",
-                "frams_path": "./framsticks/Framsticks50rc19",
-                "optimization_criteria": ["vertpos", "velocity", "numparts"],
-                "sim_file": "eval-multi.sim"
-            },
+                    "direction": "min",
+                    "attr": 3,
+                    "obj": 2,
+                    "lower_bound": 0.0,
+                    "upper_bound": 1.0
+                },
             "algorithm_args": {
-                "optimization_criteria": ["vertpos", "velocity", "numparts"]
+
+            }
+        },
+        "dtlz1": {
+            "experiment_args": {
+                    "direction": "min",
+                    "attr": 3,
+                    "obj": 3,
+                    "lower_bound": 0.0,
+                    "upper_bound": 1.0
+                },
+            "algorithm_args": {
+
+            }
+        },
+        "dtlz2": {
+            "experiment_args": {
+                    "direction": "min",
+                    "attr": 3,
+                    "obj": 3,
+                    "lower_bound": 0.0,
+                    "upper_bound": 1.0
+                },
+            "algorithm_args": {
+
+            }
+        },
+        "dtlz4": {
+            "experiment_args": {
+                    "direction": "min",
+                    "attr": 3,
+                    "obj": 3,
+                    "lower_bound": 0.0,
+                    "upper_bound": 1.0,
+                    "alpha": 100
+                },
+            "algorithm_args": {
+
             }
         }
     }
