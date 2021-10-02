@@ -66,18 +66,22 @@ def make_one_experiment(config, name, id, key, iter_number, experiment_id=None):
         name
     )
 
+    start_time = time.time()
+
     # with cProfile.Profile() as pr:
     exp = None
     if experiment_id:
         exp = deserialize_experiment(experiment_id)
-    hall_of_fame, other_data, cumulative_time = evolutionary_backbone.run(verbose=True, exp=exp)
+    hall_of_fame, other_data = evolutionary_backbone.run(verbose=True, exp=exp)
+
+    final_time = time.time() - start_time
 
     # stats = pstats.Stats(pr)
     # stats.sort_stats(pstats.SortKey.TIME)
     # stats.print_stats()
 
     print(experiment_name, "Done")
-    save_results(experiment_name, experiment_name, iter_number, hall_of_fame, other_data, cumulative_time,
+    save_results(experiment_name, experiment_name, iter_number, hall_of_fame, other_data, final_time,
                  experiment_data)
 
 
@@ -85,7 +89,7 @@ if __name__ == "__main__":
 
     folder_path = "./" + "pickles"
     done_folder_path = "./" + "dones"
-    json_file = "frams_config.json"
+    json_file = "multi_config.json"
 
     if len(sys.argv) == 4:
         iter_number = int(sys.argv[1])
@@ -93,7 +97,7 @@ if __name__ == "__main__":
         key = sys.argv[3]
     else:
         iter_number = 0
-        name = "frams2"
+        name = "dtlz1"
         key = "main_alg_args_convection_selection_front_islands"
 
     cfg = load_config(json_file)

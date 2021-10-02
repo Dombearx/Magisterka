@@ -39,7 +39,7 @@ def calculate_best_value(hall_of_fame):
 class Serialized_experiment:
 
     def __init__(self, experiment_data, key, other_data, populations, should_run, hall_of_fame,
-                 iteration_number, iter_number, name, iters):
+                 iteration_number, iter_number, name, iters, old_time):
         self.experiment_data = experiment_data
         self.key = key
         self.other_data = other_data
@@ -51,14 +51,15 @@ class Serialized_experiment:
         self.iter_number = iter_number
         self.name = name
         self.iters = iters
+        self.old_time = old_time
 
 
 def serialize_experiment(filename, experiment_data, key, other_data, populations, should_run, hall_of_fame,
-                         iteration_number, iter_number, name, iters):
+                         iteration_number, iter_number, name, iters, old_time):
     # stats = ""
 
     exp = Serialized_experiment(experiment_data, key, other_data, populations, should_run, hall_of_fame,
-                                iteration_number, iter_number, name, iters)
+                                iteration_number, iter_number, name, iters, old_time)
 
     folder_path = "./" + "pickles"
 

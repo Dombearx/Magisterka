@@ -25,9 +25,9 @@
                     }
                 },
                 "should_run": {
-                    "name": "n_iters_without_improvement",
+                    "name": "n_iters_run",
                     "args": {
-                        "max_iters": 5
+                        "max_iters": 100
                     }
                 },
                 "get_results": {
@@ -76,9 +76,9 @@
                     }
                 },
                 "should_run": {
-                    "name": "n_iters_without_improvement",
+                    "name": "n_iters_run",
                     "args": {
-                        "max_iters": 5
+                        "max_iters": 100
                     }
                 },
                 "get_results": {
@@ -127,9 +127,9 @@
                     }
                 },
                 "should_run": {
-                    "name": "n_iters_without_improvement",
+                    "name": "n_iters_run",
                     "args": {
-                        "max_iters": 5
+                        "max_iters": 100
                     }
                 },
                 "get_results": {
@@ -178,9 +178,9 @@
                     }
                 },
                 "should_run": {
-                    "name": "n_iters_without_improvement",
+                    "name": "n_iters_run",
                     "args": {
-                        "max_iters": 5
+                        "max_iters": 100
                     }
                 },
                 "get_results": {

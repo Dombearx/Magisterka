@@ -179,7 +179,7 @@ class Nsga2Algorithm(BasicAlgorithm):
             removed_individuals_partial = update_hall_of_fame(self.toolbox, [population, ], hall_of_fame)
             removed_individuals += removed_individuals_partial
             geneartion_time = time.time() - t
-            print("generation:", generation, "geneartion_time:", geneartion_time)
+            # print("generation:", generation, "geneartion_time:", geneartion_time)
             # print(f"{generation = } {time.time() - t} {removed_individuals_partial = }")
 
             # record = stats.compile(population)

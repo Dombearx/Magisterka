@@ -25,7 +25,7 @@
                     }
                 },
                 "should_run": {
-                    "name": "n_iters_run",
+                    "name": "n_iters_without_improvement",
                     "args": {
                         "max_iters": 10
                     }
@@ -78,7 +78,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 100
+                        "max_iters": 10
                     }
                 },
                 "get_results": {
@@ -112,7 +112,7 @@
                     }
                 }
             },
-            "main_alg_args_islands":  {
+            "main_alg_args_islands": {
                 "create_population": {
                     "name": "create_islands_population",
                     "args": {
@@ -129,7 +129,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 100
+                        "max_iters": 10
                     }
                 },
                 "get_results": {
@@ -180,7 +180,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 100
+                        "max_iters": 10
                     }
                 },
                 "get_results": {

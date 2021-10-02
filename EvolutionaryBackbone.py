@@ -64,8 +64,9 @@ class EvolutionaryBackbone:
         iter_number = exp.iter_number
         name = exp.name
         iters = exp.iters
+        old_time = exp.old_time
 
-        return experiment_data, key, other_data, populations, should_run, hall_of_fame, iteration_number, iter_number, name, iters
+        return experiment_data, key, other_data, populations, should_run, hall_of_fame, iteration_number, iter_number, name, iters, old_time
 
     def prepare_run(self):
         should_run = True
@@ -74,14 +75,16 @@ class EvolutionaryBackbone:
         iteration_number = 0
         other_data = []
         unchanged_iterations = 0
-        return should_run, populations, hall_of_fame, iteration_number, other_data, unchanged_iterations
+        old_time = 0.0
+
+        return should_run, populations, hall_of_fame, iteration_number, other_data, unchanged_iterations, old_time
 
     def run(self, verbose=False, exp=None):
         if exp:
-            self.experiment_data, self.key, other_collected_data, islands, should_run, hall_of_fame, iteration_number, self.iter_number, self.name, unchanged_iterations = self.resolve_exp(
+            self.experiment_data, self.key, other_collected_data, islands, should_run, hall_of_fame, iteration_number, self.iter_number, self.name, unchanged_iterations, old_time = self.resolve_exp(
                 exp)
         else:
-            should_run, islands, hall_of_fame, iteration_number, other_collected_data, unchanged_iterations = self.prepare_run()
+            should_run, islands, hall_of_fame, iteration_number, other_collected_data, unchanged_iterations, old_time = self.prepare_run()
 
         serialization_frequency = 5
         direction = self.toolbox.direction.keywords['direction']
@@ -111,6 +114,7 @@ class EvolutionaryBackbone:
                 number_of_islands = len(islands)
                 islands_sizes = [len(island) for island in islands]
                 print("len_hall_of_fame =", len_hall_of_fame, "number_of_islands =", number_of_islands, "islands_sizes =", islands_sizes)
+                print("time", old_time + (time.time() - start_time))
 
             iteration_number += 1
 
@@ -125,7 +129,7 @@ class EvolutionaryBackbone:
                 filename = "experiment_" + str(self.id)
                 serialize_experiment(filename, self.experiment_data, self.key, other_collected_data, islands,
                                      should_run,
-                                     hall_of_fame, iteration_number, self.iter_number, self.name, unchanged_iterations)
+                                     hall_of_fame, iteration_number, self.iter_number, self.name, unchanged_iterations, old_time + (time.time() - start_time))
 
             other_collected_data.append(
                 {"iteration_number": iteration_number, "number_of_islands": len(islands),
@@ -135,4 +139,4 @@ class EvolutionaryBackbone:
         filename = "experiment_" + str(self.id)
         create_done_file(filename)
 
-        return hall_of_fame, other_collected_data
+        return hall_of_fame, other_collected_data, old_time + (time.time() - start_time)
