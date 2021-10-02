@@ -72,7 +72,7 @@ def make_one_experiment(config, name, id, key, iter_number, experiment_id=None):
     exp = None
     if experiment_id:
         exp = deserialize_experiment(experiment_id)
-    hall_of_fame, other_data = evolutionary_backbone.run(verbose=True, exp=exp)
+    hall_of_fame, other_data, cumulative_time = evolutionary_backbone.run(verbose=True, exp=exp)
 
     final_time = time.time() - start_time
 
@@ -81,7 +81,7 @@ def make_one_experiment(config, name, id, key, iter_number, experiment_id=None):
     # stats.print_stats()
 
     print(experiment_name, "Done")
-    save_results(experiment_name, experiment_name, iter_number, hall_of_fame, other_data, final_time,
+    save_results(experiment_name, experiment_name, iter_number, hall_of_fame, other_data, cumulative_time,
                  experiment_data)
 
 
@@ -91,14 +91,23 @@ if __name__ == "__main__":
     done_folder_path = "./" + "dones"
     json_file = "multi_config.json"
 
+    keys_shorts = {
+        "const": "main_alg_args_convection_selection_const_islands",
+        "front": "main_alg_args_convection_selection_front_islands",
+        "islands": "main_alg_args_islands",
+        "standard": "main_alg_args_standard"
+    }
+
     if len(sys.argv) == 4:
         iter_number = int(sys.argv[1])
         name = sys.argv[2]
-        key = sys.argv[3]
+        key_short = sys.argv[3]
     else:
         iter_number = 0
         name = "dtlz1"
-        key = "main_alg_args_convection_selection_front_islands"
+        key_short = "front"
+
+    key = keys_shorts[key_short]
 
     cfg = load_config(json_file)
 
