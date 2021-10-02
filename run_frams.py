@@ -68,19 +68,19 @@ def make_one_experiment(config, name, id, key, iter_number, experiment_id=None):
 
     start_time = time.time()
 
-    with cProfile.Profile() as pr:
-        exp = None
-        if experiment_id:
-            exp = deserialize_experiment(experiment_id)
-        hall_of_fame, other_data = evolutionary_backbone.run(verbose=True, exp=exp)
+    # with cProfile.Profile() as pr:
+    exp = None
+    if experiment_id:
+        exp = deserialize_experiment(experiment_id)
+    hall_of_fame, other_data = evolutionary_backbone.run(verbose=True, exp=exp)
 
     final_time = time.time() - start_time
 
-    stats = pstats.Stats(pr)
-    stats.sort_stats(pstats.SortKey.TIME)
-    stats.print_stats()
+    # stats = pstats.Stats(pr)
+    # stats.sort_stats(pstats.SortKey.TIME)
+    # stats.print_stats()
 
-    print(experiment_name, hall_of_fame[0].fitness, hall_of_fame)
+    print(experiment_name, "Done")
     save_results(experiment_name, experiment_name, iter_number, hall_of_fame, other_data, final_time,
                  experiment_data)
 

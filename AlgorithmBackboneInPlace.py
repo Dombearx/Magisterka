@@ -15,8 +15,7 @@ class BasicAlgorithm:
         pass
 
     def run(self, population: list, hall_of_fame: BasicParetoFront,
-            update_hall_of_fame: Callable[[base.Toolbox, list, BasicParetoFront],
-                                          tuple[BasicParetoFront, int]]) -> [list, BasicParetoFront, int]:
+            update_hall_of_fame):
         pass
 
 
@@ -33,8 +32,7 @@ class SimpleOneCriteriaAlgorithm(BasicAlgorithm):
             self.optimization_criteria = kwargs['optimization_criteria']
 
     def run(self, population: list, hall_of_fame: BasicParetoFront,
-            update_hall_of_fame: Callable[[base.Toolbox, list, BasicParetoFront],
-                                          tuple[BasicParetoFront, int]]) -> [list, int]:
+            update_hall_of_fame):
 
         # Evaluate the individuals with an invalid fitness
         invalid_ind = [ind for ind in population if not ind.fitness.valid]
@@ -111,8 +109,7 @@ class Nsga2Algorithm(BasicAlgorithm):
             self.optimization_criteria = kwargs['optimization_criteria']
 
     def run(self, population: list, hall_of_fame: BasicParetoFront,
-            update_hall_of_fame: Callable[[base.Toolbox, list, BasicParetoFront],
-                                          tuple[BasicParetoFront, int]]) -> [list, BasicParetoFront, int]:
+            update_hall_of_fame):
 
         # Evaluate the individuals with an invalid fitness
         invalid_ind = [ind for ind in population if not ind.fitness.valid]

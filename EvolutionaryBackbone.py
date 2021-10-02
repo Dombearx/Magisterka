@@ -11,18 +11,16 @@ from utils import save_results, serialize_experiment, create_done_file, calculat
 class EvolutionaryBackbone:
 
     def __init__(self,
-                 create_population: Callable[[base.Toolbox], list],
-                 run_algorithm: Callable[[list, tools.Logbook, tools.Statistics, BasicParetoFront,
-                                          Callable[[base.Toolbox, list, BasicParetoFront],
-                                                   tuple[BasicParetoFront, int]]], tuple[list, list]],
-                 migrate: Callable[[list, str], list],
-                 should_still_run: Callable[[int, int, int], bool],
-                 clear_results: Callable[[list], list],
-                 prepare_hall_of_fame: Callable[[base.Toolbox], BasicParetoFront],
-                 prepare_logs: Callable[[base.Toolbox], tuple[list, tools.Statistics]],
-                 update_hall_of_fame: Callable[[base.Toolbox, list, BasicParetoFront], tuple[BasicParetoFront, int]],
-                 print_statistics: Callable[[list, BasicParetoFront, int, ...], None],
-                 toolbox: base.Toolbox,
+                 create_population,
+                 run_algorithm,
+                 migrate,
+                 should_still_run,
+                 clear_results,
+                 prepare_hall_of_fame,
+                 prepare_logs,
+                 update_hall_of_fame,
+                 print_statistics,
+                 toolbox,
                  iter_number: int,
                  experiment_name,
                  experiment_data,
@@ -78,7 +76,7 @@ class EvolutionaryBackbone:
         unchanged_iterations = 0
         return should_run, populations, hall_of_fame, iteration_number, other_data, unchanged_iterations
 
-    def run(self, verbose=False, exp=None) -> tuple[BasicParetoFront, list]:
+    def run(self, verbose=False, exp=None):
         if exp:
             self.experiment_data, self.key, other_collected_data, islands, should_run, hall_of_fame, iteration_number, self.iter_number, self.name, unchanged_iterations = self.resolve_exp(
                 exp)
@@ -90,7 +88,7 @@ class EvolutionaryBackbone:
         start_time = time.time()
 
         while should_run:
-            print("Runned")
+            # print("Runned")
             islands = self.migrate(islands, direction)
 
             migration_time_start = time.time()
@@ -107,8 +105,12 @@ class EvolutionaryBackbone:
             if verbose:
                 migration_time = time.time() - migration_time_start
                 # best_value = calculate_best_value(hall_of_fame)
-                print(
-                    f"{self.name = } {removed_individuals = } {unchanged_iterations = } {iteration_number = } {migration_time = } {len(hall_of_fame.items)} {len(islands)} {[len(island) for island in islands]}")
+                print("self.name =", self.name, "removed_individuals =", removed_individuals, "unchanged_iterations =", unchanged_iterations)
+                print("iteration_number =", iteration_number, "migration_time =", migration_time)
+                len_hall_of_fame = len(hall_of_fame.items)
+                number_of_islands = len(islands)
+                islands_sizes = [len(island) for island in islands]
+                print("len_hall_of_fame =", len_hall_of_fame, "number_of_islands =", number_of_islands, "islands_sizes =", islands_sizes)
 
             iteration_number += 1
 
