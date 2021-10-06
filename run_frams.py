@@ -94,7 +94,7 @@ if __name__ == "__main__":
     else:
         iter_number = 0
         name = "frams2"
-        key = "main_alg_args_convection_selection_front_islands"
+        key = "main_alg_args_convection_selection_const_islands"
 
     cfg = load_config(json_file)
 

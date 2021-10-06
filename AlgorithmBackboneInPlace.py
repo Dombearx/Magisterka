@@ -94,8 +94,19 @@ class SimpleOneCriteriaAlgorithm(BasicAlgorithm):
 
         return population, removed_individuals
 
-
 class Nsga2Algorithm(BasicAlgorithm):
+
+    def check_validaty(self, fitness):
+        params = fitness[0]['evaluations']['']
+        if params["numparts"] > 20:
+            return False
+        if params["numneurons"] > 20:
+            return False
+        if params["numjoints"] > 30:
+            return False
+        if params["numconnections"] > 30:
+            return False
+        return True
 
     def __init__(self, toolbox: base.Toolbox, mutation_probability: float, crossover_probability: float,
                  number_of_generations: int, *args, **kwargs):
@@ -163,9 +174,10 @@ class Nsga2Algorithm(BasicAlgorithm):
 
                 if hasattr(self, 'optimization_criteria'):
                     try:
-                        fitness = [fitness[0]['evaluations'][''][crit] for crit in self.optimization_criteria]
-                        new_ind.fitness.values = fitness
-                        offspring.append(new_ind)
+                        if self.check_validaty(fitness):
+                            fitness = [fitness[0]['evaluations'][''][crit] for crit in self.optimization_criteria]
+                            new_ind.fitness.values = fitness
+                            offspring.append(new_ind)
                     except TypeError:
                         # print("error occured")
                         pass
