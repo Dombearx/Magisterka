@@ -249,6 +249,17 @@
             "algorithm_args": {
                 "optimization_criteria": ["vertpos", "velocity", "numparts"]
             }
+        },
+        "frams4": {
+            "experiment_args": {
+                "direction": "max",
+                "frams_path": "./framsticks/Framsticks50rc19",
+                "optimization_criteria": ["velocity", "numparts"],
+                "sim_file": "eval-multi.sim"
+            },
+            "algorithm_args": {
+                "optimization_criteria": ["velocity", "numparts"]
+            }
         }
     }
 }
