@@ -82,6 +82,7 @@ def make_one_experiment(config, name, id, key, iter_number, experiment_id=None):
 
 
 if __name__ == "__main__":
+    print("MAIN STARTS")
 
     folder_path = "./" + "pickles"
     done_folder_path = "./" + "dones"
@@ -96,10 +97,12 @@ if __name__ == "__main__":
         name = "frams2"
         key = "main_alg_args_convection_selection_const_islands"
 
+    print("CONFIG LOADING")
     cfg = load_config(json_file)
 
     id = str(iter_number) + "_" + name + "_" + key
 
+    print("SEARCHING FOR", folder_path + "/" + "experiment_" + str(id) + ".pickle")
     if os.path.exists(done_folder_path + "/" + "experiment_" + str(id) + "_done.txt"):
         print("EXPERIMENT ALREADY DONE")
     else:
