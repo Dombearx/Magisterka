@@ -94,7 +94,7 @@ if __name__ == "__main__":
         key = sys.argv[3]
     else:
         iter_number = 0
-        name = "frams2"
+        name = "frams4"
         key = "main_alg_args_convection_selection_const_islands"
 
     print("CONFIG LOADING")
