@@ -163,3 +163,30 @@ def get_one_criteria_toolbox(benchmark_name, direction: str, attributes, lower_b
     toolbox.register("map", map)
 
     return toolbox
+
+def get_frams_one_criteria_toolbox(experiment_name, frams_path, optimization_criteria, direction, sim_file):
+    creator.create("Fitness", base.Fitness, weights=[1.0] * len(optimization_criteria))
+    creator.create("Individual", list, fitness=creator.Fitness)
+
+    attributes = 1
+
+    cli = FramsticksLib(frams_path, None, sim_file)
+
+    toolbox = base.Toolbox()
+
+    toolbox.register("direction", str, direction=direction)
+
+    toolbox.register("attr_frams", wrapper_get_simplest, cli, '1')
+    toolbox.register("individual", tools.initRepeat, creator.Individual,
+                     toolbox.attr_frams, attributes)
+    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+
+    toolbox.register("evaluate", wrapper_evaluate, cli)
+    toolbox.register("mate", wrapper_crossover_one_child, cli)
+    toolbox.register("mutate", wrapper_mutate, cli)
+
+    toolbox.register("select", tools.selTournament, tournsize=3)
+
+    toolbox.register("map", map)
+
+    return toolbox

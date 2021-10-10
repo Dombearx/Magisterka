@@ -113,6 +113,7 @@ class EvolutionaryBackbone:
                 len_hall_of_fame = len(hall_of_fame.items)
                 number_of_islands = len(islands)
                 islands_sizes = [len(island) for island in islands]
+                print("Best ind =", hall_of_fame[0].fitness.values)
                 print("len_hall_of_fame =", len_hall_of_fame, "number_of_islands =", number_of_islands, "islands_sizes =", islands_sizes)
                 print("time", old_time + (time.time() - start_time))
 

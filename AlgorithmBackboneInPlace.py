@@ -53,21 +53,25 @@ class SimpleOneCriteriaAlgorithm(BasicAlgorithm):
             while len(offspring) < len(population):
 
                 chosen = self.toolbox.select(population, k=1)[0]
-                chosen = self.toolbox.clone(chosen)
+                new_ind = self.toolbox.clone(chosen)
 
                 if random.random() <= self.crossover_probability:
                     chosen_2 = self.toolbox.select(population, k=1)[0]
+                    new_ind_2 = self.toolbox.clone(chosen_2)
                     # TODO can be done better?
                     if hasattr(self, 'optimization_criteria'):
-                        chosen[0] = self.toolbox.mate(chosen, chosen_2)
+                        new_ind[0] = self.toolbox.mate(new_ind, new_ind_2)
                     else:
-                        chosen = self.toolbox.mate(chosen, chosen_2)
+                        new_ind = self.toolbox.mate(new_ind, new_ind_2)
                 elif random.random() <= self.mutation_probability:
-                    chosen = self.toolbox.mutate(chosen)
+                    if hasattr(self, 'optimization_criteria'):
+                        new_ind[0] = self.toolbox.mutate(new_ind)
+                    else:
+                        new_ind = self.toolbox.mutate(new_ind)
 
-                del chosen.fitness.values
+                del new_ind.fitness.values
 
-                fitness = self.toolbox.evaluate(chosen)
+                fitness = self.toolbox.evaluate(new_ind)
 
                 if hasattr(self, 'optimization_criteria'):
                     try:

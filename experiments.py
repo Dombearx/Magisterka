@@ -1,4 +1,4 @@
-from benchmarks_conf import get_nsga2_toolbox, get_frams_nsga2_toolbox, get_one_criteria_toolbox
+from benchmarks_conf import get_nsga2_toolbox, get_frams_nsga2_toolbox, get_one_criteria_toolbox, get_frams_one_criteria_toolbox
 
 EXPERIMENTS = {
     "dtlz1": get_nsga2_toolbox,
@@ -12,6 +12,7 @@ EXPERIMENTS = {
     "frams2": get_frams_nsga2_toolbox,
     "frams3": get_frams_nsga2_toolbox,
     "frams4": get_frams_nsga2_toolbox,
+    "frams5": get_frams_one_criteria_toolbox,
     "h1": get_one_criteria_toolbox,
     "ackley": get_one_criteria_toolbox,
     "himmelblau": get_one_criteria_toolbox,

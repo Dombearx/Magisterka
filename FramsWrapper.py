@@ -2,10 +2,14 @@ from framsticks.new_frams.FramsticksLib import FramsticksLib
 
 
 def wrapper_get_simplest(cli: FramsticksLib, genetic_format: int):
+    # genotype = cli.getSimplest(genetic_format)
+    genotype = "CCCCQQQQXXX"
+    return genotype
+
+def wrapper_get_simplest_vertpos(cli: FramsticksLib, genetic_format: int):
     genotype = cli.getSimplest(genetic_format)
 
     return genotype
-
 
 def wrapper_mutate(cli: FramsticksLib, genotype_list):
     genotype = cli.mutate(genotype_list)
