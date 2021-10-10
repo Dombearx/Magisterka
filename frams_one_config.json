@@ -7,7 +7,7 @@
                 "args": {
                     "mutation_probability": 1,
                     "crossover_probability": 0.5,
-                    "number_of_generations": 5
+                    "number_of_generations": 50
                 }
             },
             "main_alg_args_convection_selection":  {
@@ -15,7 +15,7 @@
                     "name": "create_islands_population",
                     "args": {
                         "num_of_islands": 5,
-                        "num_of_individuals": 10
+                        "num_of_individuals": 30
                     }
                 },
                 "migrate": {
@@ -27,7 +27,7 @@
                 "should_run": {
                     "name": "n_iters_without_improvement",
                     "args": {
-                        "max_iters": 100
+                        "max_iters": 10
                     }
                 },
                 "get_results": {

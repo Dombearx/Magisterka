@@ -86,7 +86,7 @@ class EvolutionaryBackbone:
         else:
             should_run, islands, hall_of_fame, iteration_number, other_collected_data, unchanged_iterations, old_time = self.prepare_run()
 
-        serialization_frequency = 500
+        serialization_frequency = 5
         direction = self.toolbox.direction.keywords['direction']
         start_time = time.time()
 
