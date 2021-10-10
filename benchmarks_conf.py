@@ -10,7 +10,7 @@ except ImportError:
 
 from framsticks.new_frams.FramsticksLib import FramsticksLib
 from FramsWrapper import wrapper_evaluate, wrapper_mutate, \
-    wrapper_crossover, wrapper_get_simplest, wrapper_crossover_one_child
+    wrapper_crossover, wrapper_get_simplest, wrapper_crossover_one_child, wrapper_get_simplest_vertpos
 
 
 def gaussian_mutation(individual, mu, sigma, index, upper_bound, lower_bound):
@@ -176,7 +176,7 @@ def get_frams_one_criteria_toolbox(experiment_name, frams_path, optimization_cri
 
     toolbox.register("direction", str, direction=direction)
 
-    toolbox.register("attr_frams", wrapper_get_simplest, cli, '1')
+    toolbox.register("attr_frams", wrapper_get_simplest_vertpos, cli, '1')
     toolbox.register("individual", tools.initRepeat, creator.Individual,
                      toolbox.attr_frams, attributes)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)

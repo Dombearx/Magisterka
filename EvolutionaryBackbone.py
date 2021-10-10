@@ -86,7 +86,7 @@ class EvolutionaryBackbone:
         else:
             should_run, islands, hall_of_fame, iteration_number, other_collected_data, unchanged_iterations, old_time = self.prepare_run()
 
-        serialization_frequency = 5
+        serialization_frequency = 500
         direction = self.toolbox.direction.keywords['direction']
         start_time = time.time()
 
@@ -113,7 +113,7 @@ class EvolutionaryBackbone:
                 len_hall_of_fame = len(hall_of_fame.items)
                 number_of_islands = len(islands)
                 islands_sizes = [len(island) for island in islands]
-                print("Best ind =", hall_of_fame[0].fitness.values)
+                print("Best ind =", hall_of_fame[0].fitness.values, hall_of_fame[0])
                 print("len_hall_of_fame =", len_hall_of_fame, "number_of_islands =", number_of_islands, "islands_sizes =", islands_sizes)
                 print("time", old_time + (time.time() - start_time))
 

@@ -76,13 +76,13 @@ class SimpleOneCriteriaAlgorithm(BasicAlgorithm):
                 if hasattr(self, 'optimization_criteria'):
                     try:
                         fitness = [fitness[0]['evaluations'][''][crit] for crit in self.optimization_criteria]
-                        chosen.fitness.values = fitness
-                        offspring.append(chosen)
+                        new_ind.fitness.values = fitness
+                        offspring.append(new_ind)
                     except TypeError:
                         pass
                 else:
-                    chosen.fitness.values = fitness
-                    offspring.append(chosen)
+                    new_ind.fitness.values = fitness
+                    offspring.append(new_ind)
 
             removed_individuals_partial = update_hall_of_fame(self.toolbox, [offspring, ], hall_of_fame)
             removed_individuals += removed_individuals_partial
