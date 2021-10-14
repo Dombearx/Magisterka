@@ -1,0 +1,66 @@
+{
+  "0": {
+    "json_file": "frams_config.json",
+    "number_of_criteria": "multi_criteria",
+    "toolbox_name": "frams2",
+    "range_min": 0,
+    "range_max": 5,
+    "keys": ["main_alg_args_convection_selection_const_islands", "main_alg_args_convection_selection_front_islands", "main_alg_args_islands", "main_alg_args_standard"]
+  },
+  "1": {
+    "json_file": "frams_config.json",
+    "number_of_criteria": "multi_criteria",
+    "toolbox_name": "frams2",
+    "range_min": 5,
+    "range_max": 10,
+    "keys": ["main_alg_args_convection_selection_const_islands", "main_alg_args_convection_selection_front_islands", "main_alg_args_islands", "main_alg_args_standard"]
+  },
+  "2": {
+    "json_file": "frams_config.json",
+    "number_of_criteria": "multi_criteria",
+    "toolbox_name": "frams3",
+    "range_min": 0,
+    "range_max": 5,
+    "keys": ["main_alg_args_convection_selection_const_islands", "main_alg_args_convection_selection_front_islands", "main_alg_args_islands", "main_alg_args_standard"]
+  },
+  "3": {
+    "json_file": "frams_config.json",
+    "number_of_criteria": "multi_criteria",
+    "toolbox_name": "frams3",
+    "range_min": 5,
+    "range_max": 10,
+    "keys": ["main_alg_args_convection_selection_const_islands", "main_alg_args_convection_selection_front_islands", "main_alg_args_islands", "main_alg_args_standard"]
+  },
+  "4": {
+    "json_file": "frams_config.json",
+    "number_of_criteria": "multi_criteria",
+    "toolbox_name": "frams4",
+    "range_min": 0,
+    "range_max": 5,
+    "keys": ["main_alg_args_convection_selection_const_islands", "main_alg_args_convection_selection_front_islands", "main_alg_args_islands", "main_alg_args_standard"]
+  },
+  "5": {
+    "json_file": "frams_config.json",
+    "number_of_criteria": "multi_criteria",
+    "toolbox_name": "frams4",
+    "range_min": 5,
+    "range_max": 10,
+    "keys": ["main_alg_args_convection_selection_const_islands", "main_alg_args_convection_selection_front_islands", "main_alg_args_islands", "main_alg_args_standard"]
+  },
+  "6": {
+    "json_file": "frams_one_config.json",
+    "number_of_criteria": "one_criteria",
+    "toolbox_name": "frams5",
+    "range_min": 0,
+    "range_max": 5,
+    "keys": ["main_alg_args_convection_selection_const_islands", "main_alg_args_convection_selection_front_islands", "main_alg_args_islands", "main_alg_args_standard"]
+  },
+  "7": {
+    "json_file": "frams_one_config.json",
+    "number_of_criteria": "one_criteria",
+    "toolbox_name": "frams5",
+    "range_min": 5,
+    "range_max": 10,
+    "keys": ["main_alg_args_convection_selection", "main_alg_args_islands", "main_alg_args_standard"]
+  }
+}
