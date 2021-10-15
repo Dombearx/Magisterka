@@ -107,8 +107,12 @@ if __name__ == "__main__":
         print("EXPERIMENT ALREADY DONE")
     else:
         if os.path.exists(folder_path + "/" + "experiment_" + str(id) + ".pickle"):
-            print("RESUMING", "experiment_" + id)
-            make_one_experiment(cfg, name, id, key, iter_number, "experiment_" + id)
+            try:
+                print("RESUMING", "experiment_" + id)
+                make_one_experiment(cfg, name, id, key, iter_number, "experiment_" + id)
+            except:
+                print("PICKLE ERRIR RUNNING", "experiment_" + id)
+                make_one_experiment(cfg, name, id, key, iter_number)
         else:
             print("RUNNING", "experiment_" + id)
             make_one_experiment(cfg, name, id, key, iter_number)
